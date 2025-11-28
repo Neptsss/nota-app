@@ -1,0 +1,118 @@
+ body {
+        background: linear-gradient(to bottom right, #e3f2fd, #90caf9, #42a5f5);
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+      }
+
+      .container {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 5px;
+        background: #c6dcfa;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-bottom: 2px solid #aaa;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+      .header img {
+        width: 110px;
+        height: auto;
+      }
+
+      label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 7px;
+        margin-top: 5px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+      }
+
+      .small-input {
+        width: 95%;
+      }
+
+      .btn {
+        margin-top: 10px;
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #0056b3;
+      }
+
+      #strukContainer {
+        display: none;
+        margin-top: 20px;
+        border: 1px solid #777;
+        padding: 15px;
+        background: white;
+      }
+
+      .struk-header {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .struk-header img {
+        width: 90px;
+        height: auto;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .no-print {
+      }
+
+      @media (max-width: 768px), print {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media print {
+        body {
+          background: white;
+          margin: 0;
+        }
+        .container,
+        .btn,
+        .no-print {
+          display: none;
+        }
+        #strukContainer {
+          display: block;
+          border: none;
+          background: white;
+        }
+      }
