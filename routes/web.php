@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
+| routes are loaded by the RouteServiceProvidelsr and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
 */
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [notaController::class, 'view']);
 Route::get('/',function(){
-    return view('welcome');
+    return view('transaksi.transaksi');
 });
 Route::get('/nasabah',[nasabahController::class, 'index']);
 // Route::controller('/transaksi', transaksiController::Cl);
