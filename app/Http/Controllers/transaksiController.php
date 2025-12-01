@@ -10,6 +10,7 @@ class transaksiController extends Controller
     public function index(){
         return view('transaksi.transaksi', [
             "title" => "Transaksi",
+            "header"=>"Daftar Transaksi",
             "transaksi" => transaksi::all()
         ]);
     }

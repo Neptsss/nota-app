@@ -16,14 +16,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('nota');
-// });
-
-// Route::get('/', [notaController::class, 'view']);
-Route::get('/',function(){
-    return view('transaksi.transaksi');
+Route::controller(nasabahController::class)->group(function () {
+    Route::get('/nasabah', 'index')->name('nasabah.index');
+    Route::get('/nasabah/detail', 'show')->name('nasabah.show');
 });
-Route::get('/nasabah',[nasabahController::class, 'index']);
 // Route::controller('/transaksi', transaksiController::Cl);
-Route::get("/transaksi", [transaksiController::class, 'index']);
+Route::controller(transaksiController::class)->group(function () {
+
+    Route::get("/", 'index')->name('transaksi.index');
+    Route::get("/transaksi/detail")->name('transaksi.show');
+
+    // create
+    Route::get('/transaksi/create', 'create')->name('transaksi.create');
+    Route::post("/transaksi/create", 'store')->name("transaksi.store");
+
+    // Update
+    Route::get("/transaksi/edit", 'edit')->name('transaksi.edit');
+    Route::put('/transaksi/{transaksi:slug}', 'update')->name('transaksi.update');
+
+    // Delete
+    Route::delete('/transaksi/delete', 'destroy')->name('transaksi.delete');
+});
