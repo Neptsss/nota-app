@@ -1,16 +1,16 @@
 <aside
-    class="group bg-[#1E293B] fixed top-0 left-0 h-full w-20 hover:w-64 transition-all duration-300 ease-in-out shadow-lg overflow-hidden z-50  ">
+    class="group bg-[#A4133C] fixed top-0 left-0 h-full w-20 hover:w-64 transition-all duration-300 ease-in-out shadow-lg overflow-hidden z-50  ">
     <div class="mb-10">
         <div class="flex justify-center items-center my-5">
             <p>Logo</p>
         </div>
-        <div class="h-px bg-gray-600 w-10 mx-auto group-hover:w-5/6 transition-all duration-300 mt-4"></div>
+        <div class="h-px bg-[#f2e9e4] w-10 mx-auto group-hover:w-5/6 transition-all duration-300 mt-4"></div>
     </div>
     <div class="p-3">
         <ul class="flex flex-col gap-2">
             <li>
                 <a href="#"
-                    class="relative flex items-center h-12 px-3 rounded-md hover:bg-[#334155] text-gray-300 hover:text-[#60A5FA] transition-all duration-200">
+                    class="relative flex items-center h-12 px-3 rounded-md hover:bg-[#edafb8] text-gray-300 hover:text-[#fdf0d5] transition-all duration-200">
                     <div class="w-8 flex justify-center items-center">
                         <i class="fas fa-receipt text-lg"></i>
                     </div>
@@ -28,7 +28,7 @@
             </li>
             <li>
                 <a href="{{ route('nasabah.index') }}"
-                    class="relative flex items-center h-12 px-3 rounded-md hover:bg-[#334155] text-gray-300 hover:text-[#60A5FA] transition-all duration-200">
+                    class="relative flex items-center h-12 px-3 rounded-md  hover:bg-[#edafb8] text-gray-300 hover:text-[#fdf0d5] transition-all duration-200">
                     <div class="w-8 flex justify-center items-center">
                         <i class="fas fa-user text-lg"></i>
                     </div>

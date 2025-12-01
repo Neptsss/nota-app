@@ -11,7 +11,7 @@ class transaksiController extends Controller
         return view('transaksi.transaksi', [
             "title" => "Transaksi",
             "header"=>"Daftar Transaksi",
-            "transaksi" => transaksi::all()
+            // "transaksi" => transaksi::all()
         ]);
     }
 
