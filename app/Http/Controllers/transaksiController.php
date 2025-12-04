@@ -15,6 +15,13 @@ class transaksiController extends Controller
         ]);
     }
 
+    public function show(){
+        return view('transaksi.show',[
+            "title" => "Transaksi | Detail Transaksi",
+            "header" => "Detail Transaksi"
+        ]);
+    }
+
     public function create(){
         return view('transaksi.create',[
             "title" => "Transaksi | Tambah Create",

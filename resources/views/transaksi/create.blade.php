@@ -1,116 +1,139 @@
 @extends('template.layout')
 @section('content')
 
-<a href="" class="block w-1/4 text-center px-4 py-2 border-blue-500 border my-5 rounded-md transition-all
-duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-white hover:-translate-y-1">Kembali ke Daftar Transaksi</a>
-        <form class="border w-[80%] p-5 rounded-md mx-auto" id="notaForm">
+<a href="{{ route('transaksi.index')}}"
+    class="block w-36 max-w-[20%] text-center px-4 py-2 border-blue-500 border my-5 rounded-md transition-all
+duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-white hover:-translate-y-1 hover:font-bold">
+<i class="fa-regular fa-circle-left"></i>
+<span>Kembali</span>
+</a>
+<form class="shadow-xl  w-[95%] p-6 rounded-md mx-auto" id="notaForm">
 
-            <div class="grid grid-cols-2">
-                <div>
-                    <label class="block">Tanggal Transaksi</label>
-                    <input class="border rounded-md" type="date" id="tanggal_transaksi">
-                </div>
-                <div>
-                    <label class="block">No Transaksi</label>
-                    <input class="border rounded-md" type="text" id="no_transaksi">
-                </div>
-                <div>
-                    <label class="block">Nama Nasabah</label>
-                    <input class="border rounded-md" type="text" id="nama">
-                </div>
-                <div>
-                    <label class="block">No HP</label>
-                    <input class="border rounded-md" type="text" id="no_hp">
-                </div>
-                <div>
-                    <label class="block">Jenis ID</label>
-                    <select class="border rounded-md" id="jenis_id">
-                        <option>KTP</option>
-                        <option>SIM</option>
-                        <option>PASPOR</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block">No ID</label>
-                    <input class="border rounded-md" type="text" id="no_id">
-                </div>
-                <div class="no-print">
-                    <label class="block">Upload Foto KTP (jpeg)</label>
-                    <input class="border rounded-md" type="file" id="foto_ktp" accept="image/*">
-                </div>
-                <div>
-                    </label>Jenis Transaksi </label>
-                    <select class="border rounded-md" id="jenis_transaksi">
-                        <option class="border rounded-md" value="beli">Beli</option>
-                        <option class="border rounded-md" value="jual">Jual</option>
-                    </select>
-                </div>
-            </div>
+    <div class="flex flex-wrap justify-between items-center gap-5 ">
+        <div class="mb-5">
+            <label class="block mb-2 font-semibold">No Transaksi <span class="text-sm text-red-600">*</span></label>
+            <input name="no_transaksi" class="border rounded-md px-2 py-1 w-52" type="text" id="no_transaksi">
+        </div>
+        <div class="mb-5">
+            <label class="block mb-2 font-semibold">Tanggal Transaksi <span
+                    class="text-sm text-red-600">*</span></label>
+            <input name="tgl_transaksi" class="border rounded-md w-52 px-2 py-1" type="date" id="tanggal_transaksi">
+        </div>
+        <div class="mb-5">
+            <label for="" class="block mb-2 font-semibold">Jenis transaksi <span
+                    class="text-sm text-red-600">*</span></label>
+            <select class="border rounded-md px-2 py-1 w-52 " name="jenis_transaksi">
+                <option value="beli">Beli</option>
+                <option value="jual">Jual</option>
+            </select>
+        </div>
+        <div class="mb-5">
+            <label class="block mb-2 font-semibold">Nama Nasabah <span class="text-sm text-red-600">*</span></label>
+            <input name="nama_nasabah" class="border rounded-md w-52 px-2 py-1" type="text" id="nama">
+        </div>
+        <div class="mb-5">
+            <label class="block mb-2 font-semibold">No HP <span class="text-sm text-red-600">*</span></label>
+            <input name="no_hp" class="border rounded-md w-52 px-2 py-1" type="text" id="no_hp">
+        </div>
+        <div class="mb-5">
+            <label class="block mb-2 font-semibold">Jenis ID <span class="text-sm text-red-600">*</span></label>
+            <select class="border rounded-md w-52 px-2 py-1" name="jenis_id">
+                <option value="KTP">KTP</option>
+                <option value="SIM">SIM</option>
+                <option value="PASPOR">PASPOR</option>
+            </select>
+        </div>
+        <div class="mb-5">
+            <label class="block mb-2 font-semibold">No ID <span class="text-sm text-red-600">*</span></label>
+            <input name="no_id" class="border rounded-md w-52 px-2 py-1" type="text" id="no_id">
+        </div>
+        <div class="mb-5">
+            <label class="block mb-2 font-semibold">Upload Foto KTP (jpeg) <span
+                    class="text-sm text-red-600">*</span></label>
+            <input name="foto_id" class="border rounded-md w-52 px-2 py-1" type="file" id="foto_ktp" accept="image/*">
+        </div>
 
-            <h3>Detail Transaksi</h3>
-            <div class="flex gap-4">
-
-                <div>
-                    <label class="block">Mata Uang</label>
-                    <select class="border rounded-md" type="text" id="mata_uang">
-                        <option>AED</option>
-                        <option>AUD</option>
-                        <option>BHD</option>
-                        <option>BND</option>
-                        <option>SAR</option>
-                        <option>CAD</option>
-                        <option>CHF</option>
-                        <option>CNY</option>
-                        <option>TWD</option>
-                        <option>EUR</option>
-                        <option>GBP</option>
-                        <option>HKD</option>
-                        <option>IDR</option>
-                        <option>JPY</option>
-                        <option>KRW</option>
-                        <option>MYR</option>
-                        <option>SGD</option>
-                        <option>USD</option>
-                        <option>VND</option>
-                        <option>ZAR</option>
-                        <option>INR</option>
-                    </select>
-
-                </div>
-
-                <div>
-                    <label class="block">Jumlah</label>
-                    <input class="border rounded-md" type="number" id=>
-                    </input>
-                </div>
-
-                <div>
-                    <label class="block">Rate</label>
-                    <input class="border rounded-md" type="number" id=>
-                    </input>
-                </div>
-
-                <div>
-                    <label class="block">Jumlah (RP)</label>
-                    <input class="border rounded-md" type="number" id=>
-                    </input>
-                </div>
-
-            </div>
-
-            <button type="button" class="btn" onclick="tambahBaris()">+ Tambah Baris</button>
-
-            <label class="block">Total RP</label>
-            <input class="border rounded-md"type="text" id="total_rp" readonly>
-
-            <p><strong>Catatan:</strong> Kekurangan atau kekeliruan setelah meninggalkan kantor tidak kami layani</p>
-
-            <button type="button" class="btn" onclick="tampilkanStruk()">📄 Lihat Struk</button>
-        </form>
     </div>
 
-    <script>
-        function hitung(el) {
+    <h3 class="font-semibold mb-5">Detail Transaksi </h3>
+    <div class="flex gap-4 justify-between items-center flex-wrap" id="detail_container">
+        <div>
+            <label class="block mb-2 font-semibold">Mata Uang <span class="text-sm text-red-600">*</span></label>
+            <select class="border rounded-md w-52 px-2 py-1" type="text" name="mata_uang">
+                <option>AED</option>
+                <option>AUD</option>
+                <option>BHD</option>
+                <option>BND</option>
+                <option>SAR</option>
+                <option>CAD</option>
+                <option>CHF</option>
+                <option>CNY</option>
+                <option>TWD</option>
+                <option>EUR</option>
+                <option>GBP</option>
+                <option>HKD</option>
+                <option>IDR</option>
+                <option>JPY</option>
+                <option>KRW</option>
+                <option>MYR</option>
+                <option>SGD</option>
+                <option>USD</option>
+                <option>VND</option>
+                <option>ZAR</option>
+                <option>INR</option>
+            </select>
+
+        </div>
+
+        <div>
+            <label class="block mb-2 font-semibold">Jumlah <span class="text-sm text-red-600">*</span></label>
+            <input name="jumlah" class="border rounded-md w-52 px-2 py-1" type="number" id>
+        </div>
+
+        <div>
+            <label class="block mb-2 font-semibold">Rate <span class="text-sm text-red-600">*</span></label>
+            <input name="rate" class="border rounded-md w-52 px-2 py-1" type="number" id>
+        </div>
+
+        <div>
+            <label class="block mb-2 font-semibold">Jumlah (RP)</label>
+            <input name="jumlah_rp" class="rounded-md w-52 px-2 py-1 bg-gray-300 text-white focus:outline-0 cursor-auto"
+                type="number" readonly>
+        </div>
+        <div>
+            <label class="block mb-2 font-semibold opacity-0 select-none">Hapus</label>
+            <button type="button"
+                class="rounded-md cursor-pointer px-2 py-1 block bg-red-600 text-white hover:scale-110 hover:shadow-md hover:shadow-red-600/60 transition-all duration-300">
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
+        </div>
+    </div>
+
+    <button type="button"
+        class="border border-blue-400 my-5 px-4 py-2 rounded-md hover:-translate-y-1 cursor-pointer transition-all duration-300 hover:bg-blue-400 hover:text-white hover:shadow-md hover:shadow-blue-500/60"
+        onclick="tambahBaris()">+ Tambah Baris</button>
+    <div>
+        <label class="block mb-2 font-semibold">Total RP</label>
+        <input class=" rounded-md w-52 px-2 py-1 bg-gray-300 text-white focus:outline-0 cursor-auto" type="text"
+            name="total_rp" readonly>
+    </div>
+
+
+    <p class="my-5"><strong>Catatan:</strong> Kekurangan atau kekeliruan setelah meninggalkan kantor tidak kami layani
+    </p>
+
+    <div class="flex items-center gap-5">
+        <button type="button"
+            class="border block border-green-600 px-4 py-2 rounded-md transition-all hover:scale-105 duration-300 hover:bg-green-600 hover:text-white hover:shadow-md hover:shadow-green-600/60 hover:font-bold cursor-pointer"
+            onclick="tampilkanStruk()">Lihat Struk</button>
+        <button type="submit"
+            class="border block border-cyan-600 px-4 py-2 rounded-md transition-all hover:scale-105 duration-300 hover:bg-cyan-600 hover:text-white hover:shadow-md hover:shadow-cyan-600/60 hover:font-bold cursor-pointer">Simpan</button>
+    </div>
+</form>
+</div>
+
+<script>
+    function hitung(el) {
             const row = el.parentElement.parentElement;
             const jumlah = parseFloat(row.querySelector('.jumlah').value) || 0;
             const rate = parseFloat(row.querySelector('.rate').value) || 0;
@@ -127,21 +150,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
         }
 
         function tambahBaris() {
-            const table = document.getElementById('transaksiTable');
-            const row = table.insertRow(-1);
-            row.innerHTML = `
-        <td><select class="mata-uang">
-            <option>AED</option><option>AUD</option><option>BHD</option><option>BND</option>
-            <option>SAR</option><option>CAD</option><option>CHF</option><option>CNY</option>
-            <option>TWD</option><option>EUR</option><option>GBP</option><option>HKD</option>
-            <option>IDR</option><option>JPY</option><option>KRW</option><option>MYR</option>
-            <option>SGD</option><option>USD</option><option>VND</option><option>ZAR</option><option>INR</option>
-        </select></td>
-        <td><input type="number" class="jumlah small-input" oninput="hitung(this)"></td>
-        <td><input type="number" step="0.01" class="rate small-input" oninput="hitung(this)"></td>
-        <td><input type="text" class="jumlah-rp small-input" readonly></td>
-        <td><button type="button" onclick="hapusBaris(this)">Hapus</button></td>
-    `;
+
         }
 
         function hapusBaris(btn) {
@@ -206,5 +215,5 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
                 .then(response => console.log("Success:", response))
                 .catch(error => console.error("Error:", error));
         }
-    </script>
+</script>
 @endsection
