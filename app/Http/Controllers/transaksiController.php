@@ -18,7 +18,7 @@ class transaksiController extends Controller
     public function create(){
         return view('transaksi.create',[
             "title" => "Transaksi | Tambah Create",
-            "header" =>"Tambah transaksi"
+            "header" =>"Nota Penukaran Valuta Asing"
         ]);
     }
 
