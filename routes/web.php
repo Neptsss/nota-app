@@ -20,15 +20,22 @@ Route::controller(nasabahController::class)->group(function () {
     Route::get('/nasabah', 'index')->name('nasabah.index');
     Route::get('/nasabah/detail', 'show')->name('nasabah.show');
 });
-// Route::controller('/transaksi', transaksiController::Cl);
+
+// Route::get('/transaksi/create', function(){
+//     return view('transaksi.tes', [
+//         "title" => "Transaksi | Tambah Create",
+//         "header" => "Tambah transaksi"
+//     ]);
+// })->name("transaksi.create");
+
 Route::controller(transaksiController::class)->group(function () {
 
     Route::get("/", 'index')->name('transaksi.index');
-    Route::get("/transaksi/detail")->name('transaksi.show');
+    // Route::get("/transaksi/detail")->name('transaksi.show');
 
     // create
     Route::get('/transaksi/create', 'create')->name('transaksi.create');
-    Route::post("/transaksi/create", 'store')->name("transaksi.store");
+    // Route::post("/transaksi/create", 'store')->name("transaksi.store");
 
     // Update
     Route::get("/transaksi/edit", 'edit')->name('transaksi.edit');

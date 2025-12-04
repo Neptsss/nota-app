@@ -1,7 +1,7 @@
 @extends('template.layout')
 @section('content')
 <p class="text-2xl underline">Hello World</p>
-<a href="" class="block w-1/4 text-center px-4 py-2 border-blue-500 border my-5 rounded-md transition-all duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-white hover:-translate-y-1">Tambah Transaksi</a>
+<a href="{{ route('transaksi.create') }}" class="block w-1/4 text-center px-4 py-2 border-blue-500 border my-5 rounded-md transition-all duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-white hover:-translate-y-1">Tambah Transaksi</a>
 <div>
 <table>
 <thead>
