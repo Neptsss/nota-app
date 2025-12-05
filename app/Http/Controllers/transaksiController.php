@@ -28,6 +28,11 @@ class transaksiController extends Controller
             "header" =>"Nota Penukaran Valuta Asing"
         ]);
     }
-
+ public function edit(){
+    return view('transaksi.edit', [
+        "title" => "Transaksi | Edit ",
+        "header" =>"Edit Nota Penukaran Valuta Asing"
+    ]);
+ }
 
 }

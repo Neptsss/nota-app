@@ -31,6 +31,7 @@ Route::controller(transaksiController::class)->group(function () {
     Route::post("/transaksi/create", 'store')->name("transaksi.store");
 
     // Update
+    Route::get('/transaksi/edit','edit')->name('transaksi.edit');
     // Route::put('/transaksi/{transaksi:slug}', 'update')->name('transaksi.update');
 
     // Delete

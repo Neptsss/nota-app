@@ -6,7 +6,7 @@
 <div>
     <table class="table-auto table">
         <thead>
-            <t>
+            <tr>
                 <th class="border border-slate-700 p-4">No Transaksi</th>
                 <th class="border border-slate-700 p-4">Tanggal Transaksi</th>
                 <th class="border border-slate-700 p-4">Jenis Transaksi</th>
@@ -15,7 +15,8 @@
                 <th class="border border-slate-700 p-4">Mata Uang</th>
                 <th class="border border-slate-700 p-4">Total</th>
                 <th class="border border-slate-700 p-4">Action</th>
-            </t </thead>
+            </tr>
+        </thead>
 
         <tbody>
             <tr>
@@ -34,7 +35,7 @@
                         <a href=""
                             class=" my-5 rounded-md px-2 py-1 block bg-green-600 text-white hover:scale-110 hover:shadow-md hover:shadow-green-600/60 transition-all duration-300"><i
                                 class="fa-solid fa-print"></i></a>
-                        <a href=""
+                        <a href="{{route('transaksi.edit')}}"
                             class=" my-5 rounded-md px-2 py-1 block bg-yellow-500 text-white hover:scale-110 hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300"><i
                                 class="fa-solid fa-pen-to-square"></i></a>
                         <form action="" method="" class="deleteBtn cursor-pointer">

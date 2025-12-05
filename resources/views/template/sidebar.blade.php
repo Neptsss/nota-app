@@ -13,7 +13,7 @@
         <ul class="flex flex-col gap-2">
             <li>
                 <a href="{{ route('transaksi.index') }}"
-                    class="relative flex items-center h-12 px-3 rounded-md hover:bg-[#edafb8] text-gray-300 hover:text-[#fdf0d5] transition-all duration-200">
+                    class="relative flex items-center h-12 px-3 rounded-md hover:bg-white text-gray-300 hover:text-[#A4133C] transition-all duration-200">
                     <div class="w-8 flex justify-center items-center">
                         <i class="fas fa-receipt text-lg"></i>
                     </div>
@@ -25,7 +25,7 @@
             </li>
             <li>
                 <a href="{{ route('nasabah.index') }}"
-                    class="relative flex items-center h-12 px-3 rounded-md  hover:bg-[#edafb8] text-gray-300 hover:text-[#fdf0d5] transition-all duration-200">
+                    class="relative flex items-center h-12 px-3 rounded-md  hover:bg-white text-gray-300 hover:text-[#A4133C] transition-all duration-200">
                     <div class="w-8 flex justify-center items-center">
                         <i class="fas fa-user text-lg"></i>
                     </div>
@@ -39,7 +39,7 @@
 
         <div class="mt-auto">
             <form action="" method="post"
-                class="relative flex items-center h-12 px-3 rounded-md  hover:bg-[#edafb8] text-gray-300 hover:text-[#fdf0d5] transition-all duration-200 gap-5 ">
+                class="relative flex items-center h-12 px-3 rounded-md  hover:bg-white text-gray-300 hover:text-[#A4133C] transition-all duration-200 gap-5 ">
                 <div class="w-8 flex justify-center items-center">
                    <i class="fa-solid fa-arrow-right-from-bracket text-lg"></i>
                 </div>
