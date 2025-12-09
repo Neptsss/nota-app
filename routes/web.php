@@ -4,6 +4,7 @@ use App\Http\Controllers\nasabahController;
 use App\Http\Controllers\notaController;
 use App\Http\Controllers\transaksiController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +37,8 @@ Route::controller(transaksiController::class)->group(function () {
 
     // Delete
     Route::delete('/transaksi/delete', 'destroy')->name('transaksi.delete');
+
+    Route::get('/auth',[AuthController::class, 'index'])->name('login');
+    Route::post('/auth',[AuthController::class, 'login'])->name('login.auth');
+
 });
