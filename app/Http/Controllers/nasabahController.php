@@ -10,7 +10,8 @@ class nasabahController extends Controller
     public function index() {
     return view('nasabah.nasabah',[
         "title" => "Nasabah",
-        "nasabah" => nasabah::all()
+        "header"=>"Daftar Nasabah"
+        // "nasabah" => nasabah::all()
     ]) ;
     }
 }
