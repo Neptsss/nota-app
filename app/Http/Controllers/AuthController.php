@@ -19,7 +19,10 @@ class AuthController extends Controller
 
  }
 public function login(Request $request)
-{dd($request->all());
+{
+        notify()->success('Laravel Notify is awesome!');
+    // dd($request->all());
+ return redirect()->route('transaksi.index');
 
 
 

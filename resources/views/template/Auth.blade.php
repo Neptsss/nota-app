@@ -8,9 +8,12 @@
 </head>
 
 <body class="bg-[#F1F5F9]">
+    <x-notify::notify />
 
     @yield('section-auth')
-    
+
+
+    @notifyJs
 </body>
 
 <script src="{{ asset('js/sweetAlert.js') }}"></script>

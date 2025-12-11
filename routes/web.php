@@ -37,8 +37,7 @@ Route::controller(transaksiController::class)->group(function () {
 
     // Delete
     Route::delete('/transaksi/delete', 'destroy')->name('transaksi.delete');
-
-    Route::get('/auth',[AuthController::class, 'index'])->name('login');
-    Route::post('/auth',[AuthController::class, 'login'])->name('login.auth');
-
 });
+
+Route::get('/auth',[AuthController::class, 'index'])->name('login');
+Route::post('/auth',[AuthController::class, 'login'])->name('login.auth');

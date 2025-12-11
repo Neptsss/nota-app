@@ -18,7 +18,7 @@
                         <i class="fas fa-receipt text-lg"></i>
                     </div>
                     <span
-                        class="ml-3 font-medium whitespace-nowrap w-0 overflow-hidden group-hover:w-auto opacity-0 group-hover:opacity-100 transition-all duration-300 delay-75">
+                        class="ml-3 font-medium whitespace-nowrap w-0 overflow-hidden group-hover:w-auto opacity-100 group-hover:opacity-100 transition-all duration-300 delay-75">
                         Transaksi
                     </span>
                 </a>

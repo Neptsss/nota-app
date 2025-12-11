@@ -8,3 +8,4 @@
 @theme {
     --color-primary : #A4133C
 }
+@import './notify.css';
