@@ -7,51 +7,72 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
     <i class="fa-regular fa-circle-left"></i>
     <span>Kembali</span>
 </a>
-<form class="shadow-xl  w-[95%] p-6 rounded-md mx-auto" id="notaForm">
-
+<form  method='post' class="shadow-xl  w-[95%] p-6 rounded-md mx-auto" id="notaForm" action="{{route ('transaksi.store')}}">
+@csrf
     <div class="flex flex-wrap justify-between items-center gap-5 ">
         <div class="mb-5">
             <label class="block mb-2 font-semibold">No Transaksi <span class="text-sm text-red-600">*</span></label>
-            <input name="no_transaksi" class="border rounded-md px-2 py-1 w-52" type="text" id="no_transaksi"
+            <input name="no_transaksi" class="border rounded-md px-2 py-1 w-52  @error('no_transaksi') border-red-600 @enderror" type="text" id="no_transaksi"
                 placeholder="Masukan nomor transaksi">
+                @error('no_transaksi')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">Tanggal Transaksi <span
                     class="text-sm text-red-600">*</span></label>
-            <input name="tgl_transaksi" class="border rounded-md w-52 px-2 py-1" type="date" id="tanggal_transaksi">
+            <input name="tgl_transaksi" class="border rounded-md w-52 px-2 py-1 @error('tgl_transaksi') border-red-600 @enderror" type="date" id="tanggal_transaksi">
+             @error('tgl_transaksi')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
         <div class="mb-5">
             <label for="" class="block mb-2 font-semibold">Jenis transaksi <span
                     class="text-sm text-red-600">*</span></label>
-            <select class="border rounded-md px-2 py-1 w-52 " name="jenis_transaksi">
+            <select class="border rounded-md px-2 py-1 w-52 @error('jenis_transaksi') border-red-600 @enderror" name="jenis_transaksi">
                 <option selected disabled class="text-center">-- Pilih Jenis Transaksi --</option>
                 <option value="beli">Beli</option>
                 <option value="jual">Jual</option>
             </select>
+             @error('jenis_transaksi')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">Nama Nasabah <span class="text-sm text-red-600">*</span></label>
-            <input name="nama_nasabah" class="border rounded-md w-52 px-2 py-1" type="text" id="nama"
+            <input name="nama_nasabah" class="border rounded-md w-52 px-2 py-1 @error('nama_nasabah') border-red-600 @enderror" type="text" id="nama"
                 placeholder="Masukan nama nasabah">
+                 @error('nama_nasabah')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">No HP <span class="text-sm text-red-600">*</span></label>
-            <input name="no_hp" class="border rounded-md w-52 px-2 py-1" type="text" id="no_hp"
+            <input name="no_hp" class="border rounded-md w-52 px-2 py-1 @error('no_hp') border-red-600 @enderror" type="text" id="no_hp"
                 placeholder="Masukan nomor HP nasabah">
+                 @error('no_hp')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">Jenis ID <span class="text-sm text-red-600">*</span></label>
-            <select class="border rounded-md w-52 px-2 py-1" name="jenis_id">
+            <select class="border rounded-md w-52 px-2 py-1 @error('jenis_id') border-red-600 @enderror" name="jenis_id">
                 <option selected disabled class="text-center">-- Pilih Jenis ID --</option>
                 <option value="KTP">KTP</option>
                 <option value="SIM">SIM</option>
                 <option value="PASPOR">PASPOR</option>
             </select>
+             @error('jenis_id')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">No ID <span class="text-sm text-red-600">*</span></label>
-            <input name="no_id" class="border rounded-md w-52 px-2 py-1" type="text" id="no_id"
+            <input name="no_id" class="border rounded-md w-52 px-2 py-1 @error('no_id') border-red-600 @enderror" type="text" id="no_id"
                 placeholder="Masukan nomor ID ">
+                 @error('no_id')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
         <div class="mb-5">
             <div class=" mb-2 flex items-center gap-3">
@@ -72,8 +93,8 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
     <h3 class="font-semibold mb-5">Detail Transaksi </h3>
     <div class="flex gap-4 justify-between items-center flex-wrap" id="detail_container">
         <div>
-            <label class="block mb-2 font-semibold">Mata Uang <span class="text-sm text-red-600">*</span></label>
-            <select class="border rounded-md w-52 px-2 py-1" type="text" name="mata_uang">
+            <label class="block mb-2 font-semibold">Mata Uang <span class="text-sm text-red-600 ">*</span></label>
+            <select class="border rounded-md w-52 px-2 py-1 @error('mata_uang') border-red-600 @enderror" type="text" name="mata_uang">
                 <option selected disabled class="text-center">-- Pilih Mata Uang --</option>
                 <option>AED</option>
                 <option>AUD</option>
@@ -97,21 +118,29 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
                 <option>ZAR</option>
                 <option>INR</option>
             </select>
-
+                @error('mata_uang')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
 
         <div>
             <label class="block mb-2 font-semibold">Jumlah <span class="text-sm text-red-600">*</span></label>
-            <input name="jumlah" class="border rounded-md w-52 px-2 py-1" type="text" id="jumlah"
+            <input name="jumlah" class="border rounded-md w-52 px-2 py-1 @error('jumlah') border-red-600 @enderror" type="text" id="jumlah"
                 placeholder="masukan jumlah uang">
+                 @error('jumlah')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
 
 
 
         <div>
             <label class="block mb-2 font-semibold">Rate <span class="text-sm text-red-600">*</span></label>
-            <input name="rate" class="border rounded-md w-52 px-2 py-1" type="text" id="rate"
+            <input name="rate" class="border rounded-md w-52 px-2 py-1 @error('rate') border-red-600 @enderror" type="text" id="rate"
                 placeholder="masukan jumlah rate uang (Rp)">
+                 @error('rate')
+                <span class="block text-red-600 text-sm">{{$message}}</span>
+                @enderror
         </div>
 
         <div>

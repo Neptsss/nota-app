@@ -29,14 +29,15 @@
         </thead>
 
         <tbody>
+             @foreach ($transaksi as $item)
             <tr>
-                <td class="border border-slate-700 p-4">123</td>
-                <td class="border border-slate-700 p-4">15</td>
-                <td class="border border-slate-700 p-4">Beli</td>
-                <td class="border border-slate-700 p-4">Noval</td>
-                <td class="border border-slate-700 p-4">KTP</td>
-                <td class="border border-slate-700 p-4">IDR</td>
-                <td class="border border-slate-700 p-4">RP</td>
+                <td class="border border-slate-700 p-4">{{$item->no_transaksi}}</td>
+                <td class="border border-slate-700 p-4">{{$item->tgl_transaksi}}</td>
+                <td class="border border-slate-700 p-4">{{$item->jenis_transaksi}}</td>
+                <td class="border border-slate-700 p-4">{{$item->nasabah->nama_nasabah}}</td>
+                <td class="border border-slate-700 p-4">{{$item->nasabah->jenis_id}}</td>
+                <td class="border border-slate-700 p-4">{{$item->detail_transaksi->mata_uang->mata_uang}}</td>
+                <td class="border border-slate-700 p-4">RP {{$item->detail_transaksi->sub_total}}</td>
                 <td class="border border-slate-700 p-4">
                     <div class="flex justify-center gap-2">
                         <a href="{{ route('transaksi.show') }}"
@@ -57,6 +58,7 @@
 
                 </td>
             </tr>
+             @endforeach
         </tbody>
 
     </table>

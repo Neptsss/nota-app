@@ -29,7 +29,7 @@ Route::controller(transaksiController::class)->group(function () {
 
     // create
     Route::get('/transaksi/create', 'create')->name('transaksi.create');
-    Route::post("/transaksi/create", 'store')->name("transaksi.store");
+    Route::post('/transaksi/store', 'store' )->name('transaksi.store');
 
     // Update
     Route::get('/transaksi/edit','edit')->name('transaksi.edit');
