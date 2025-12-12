@@ -38,17 +38,19 @@
         </ul>
 
         <div class="mt-auto">
-            <form action="" method="post"
+            <form action="{{route('logout')}}" method="post"
                 class="relative flex items-center h-12 px-3 rounded-md  hover:bg-white text-gray-300 hover:text-[#A4133C] transition-all duration-200 gap-5 ">
+                @csrf
                 <div class="w-8 flex justify-center items-center">
                    <i class="fa-solid fa-arrow-right-from-bracket text-lg"></i>
                 </div>
-                <span
-                    class="ml-3 font-medium whitespace-nowrap w-0 overflow-hidden group-hover:w-auto opacity-0 group-hover:opacity-100 transition-all duration-300 delay-75">
+                <button type="submit"
+                    class="ml-3 cursor-pointer font-medium whitespace-nowrap w-0 overflow-hidden group-hover:w-auto opacity-0 group-hover:opacity-100 transition-all duration-300 delay-75">
                     Logout
-                </span>
+                </button>
             </form>
         </div>
 
     </div>
 </aside>
+

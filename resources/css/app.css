@@ -1,3 +1,4 @@
+@import './notify.css';
 @import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -8,4 +9,4 @@
 @theme {
     --color-primary : #A4133C
 }
-@import './notify.css';
+

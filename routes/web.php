@@ -24,7 +24,7 @@ Route::controller(nasabahController::class)->group(function () {
 
 Route::controller(transaksiController::class)->group(function () {
 
-    Route::get("/", 'index')->name('transaksi.index');
+    Route::get("/transaksi", 'index')->name('transaksi.index');
     Route::get("/transaksi/detail", 'show')->name('transaksi.show');
 
     // create
@@ -39,5 +39,9 @@ Route::controller(transaksiController::class)->group(function () {
     Route::delete('/transaksi/delete', 'destroy')->name('transaksi.delete');
 });
 
-Route::get('/auth',[AuthController::class, 'index'])->name('login');
-Route::post('/auth',[AuthController::class, 'login'])->name('login.auth');
+Route::controller(AuthController::class)->group(function() {
+Route::get('/','index')->name('login');
+Route::post('/','login')->name('login.auth');
+Route::post('/logout','logout')->name('logout');
+});
+
