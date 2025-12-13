@@ -7,72 +7,79 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
     <i class="fa-regular fa-circle-left"></i>
     <span>Kembali</span>
 </a>
-<form  method='post' class="shadow-xl  w-[95%] p-6 rounded-md mx-auto" id="notaForm" action="{{route ('transaksi.store')}}">
-@csrf
+<form method='post' class="shadow-xl  w-[95%] p-6 rounded-md mx-auto" id="notaForm"
+    action="{{route ('transaksi.store')}}">
+    @csrf
     <div class="flex flex-wrap justify-between items-center gap-5 ">
         <div class="mb-5">
             <label class="block mb-2 font-semibold">No Transaksi <span class="text-sm text-red-600">*</span></label>
-            <input name="no_transaksi" class="border rounded-md px-2 py-1 w-52  @error('no_transaksi') border-red-600 @enderror" type="text" id="no_transaksi"
-                placeholder="Masukan nomor transaksi">
-                @error('no_transaksi')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            <input name="no_transaksi"
+                class="border rounded-md px-2 py-1 w-52  @error('no_transaksi') border-red-600 @enderror" type="text"
+                id="no_transaksi" placeholder="Masukan nomor transaksi" value="{{ @old('no_transaksi') }}">
+            @error('no_transaksi')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">Tanggal Transaksi <span
                     class="text-sm text-red-600">*</span></label>
-            <input name="tgl_transaksi" class="border rounded-md w-52 px-2 py-1 @error('tgl_transaksi') border-red-600 @enderror" type="date" id="tanggal_transaksi">
-             @error('tgl_transaksi')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            <input name="tgl_transaksi"
+                class="border rounded-md w-52 px-2 py-1 @error('tgl_transaksi') border-red-600 @enderror" type="date"
+                id="tanggal_transaksi" value="{{ @old('tgl_transaksi') }}">
+            @error('tgl_transaksi')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
         <div class="mb-5">
             <label for="" class="block mb-2 font-semibold">Jenis transaksi <span
                     class="text-sm text-red-600">*</span></label>
-            <select class="border rounded-md px-2 py-1 w-52 @error('jenis_transaksi') border-red-600 @enderror" name="jenis_transaksi">
+            <select class="border rounded-md px-2 py-1 w-52 @error('jenis_transaksi') border-red-600 @enderror"
+                name="jenis_transaksi">
                 <option selected disabled class="text-center">-- Pilih Jenis Transaksi --</option>
-                <option value="beli">Beli</option>
-                <option value="jual">Jual</option>
+                <option value="beli" {{ @old('jenis_transaksi')=="beli" ? 'selected' : '' }}>Beli</option>
+                <option value="jual" {{ @old('jenis_transaksi')=="jual" ? 'selected' : '' }}>Jual</option>
             </select>
-             @error('jenis_transaksi')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            @error('jenis_transaksi')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">Nama Nasabah <span class="text-sm text-red-600">*</span></label>
-            <input name="nama_nasabah" class="border rounded-md w-52 px-2 py-1 @error('nama_nasabah') border-red-600 @enderror" type="text" id="nama"
-                placeholder="Masukan nama nasabah">
-                 @error('nama_nasabah')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            <input name="nama_nasabah"
+                class="border rounded-md w-52 px-2 py-1 @error('nama_nasabah') border-red-600 @enderror" type="text"
+                id="nama" placeholder="Masukan nama nasabah" value="{{ old('nama_nasabah') }}">
+            @error('nama_nasabah')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">No HP <span class="text-sm text-red-600">*</span></label>
-            <input name="no_hp" class="border rounded-md w-52 px-2 py-1 @error('no_hp') border-red-600 @enderror" type="text" id="no_hp"
-                placeholder="Masukan nomor HP nasabah">
-                 @error('no_hp')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            <input name="no_hp" class="border rounded-md w-52 px-2 py-1 @error('no_hp') border-red-600 @enderror"
+                type="text" id="no_hp" placeholder="Masukan nomor HP nasabah" value="{{ old('no_hp') }}">
+            @error('no_hp')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">Jenis ID <span class="text-sm text-red-600">*</span></label>
-            <select class="border rounded-md w-52 px-2 py-1 @error('jenis_id') border-red-600 @enderror" name="jenis_id">
+            <select class="border rounded-md w-52 px-2 py-1 @error('jenis_id') border-red-600 @enderror"
+                name="jenis_id">
                 <option selected disabled class="text-center">-- Pilih Jenis ID --</option>
-                <option value="KTP">KTP</option>
-                <option value="SIM">SIM</option>
-                <option value="PASPOR">PASPOR</option>
+                <option value="KTP" {{ @old('jenis_id') =="KTP" ? 'selected' : '' }}>KTP</option>
+                <option value="SIM" {{ @old('jenis_id') =="SIM" ? 'selected' : '' }}>SIM</option>
+                <option value="PASPOR" {{ @old('jenis_id') =="PASPOR" ? 'selected' : '' }}>PASPOR</option>
             </select>
-             @error('jenis_id')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            @error('jenis_id')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
         <div class="mb-5">
             <label class="block mb-2 font-semibold">No ID <span class="text-sm text-red-600">*</span></label>
-            <input name="no_id" class="border rounded-md w-52 px-2 py-1 @error('no_id') border-red-600 @enderror" type="text" id="no_id"
-                placeholder="Masukan nomor ID ">
-                 @error('no_id')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            <input name="no_id" class="border rounded-md w-52 px-2 py-1 @error('no_id') border-red-600 @enderror"
+                type="text" id="no_id" placeholder="Masukan nomor ID " value="{{ @old('no_id') }}">
+            @error('no_id')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
         <div class="mb-5">
             <div class=" mb-2 flex items-center gap-3">
@@ -94,7 +101,8 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
     <div class="flex gap-4 justify-between items-center flex-wrap" id="detail_container">
         <div>
             <label class="block mb-2 font-semibold">Mata Uang <span class="text-sm text-red-600 ">*</span></label>
-            <select class="border rounded-md w-52 px-2 py-1 @error('mata_uang') border-red-600 @enderror" type="text" name="mata_uang">
+            <select class="border rounded-md w-52 px-2 py-1 @error('mata_uang') border-red-600 @enderror" type="text"
+                name="mata_uang" id="mata_uang">
                 <option selected disabled class="text-center">-- Pilih Mata Uang --</option>
                 <option>AED</option>
                 <option>AUD</option>
@@ -118,35 +126,35 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
                 <option>ZAR</option>
                 <option>INR</option>
             </select>
-                @error('mata_uang')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            @error('mata_uang')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
 
         <div>
             <label class="block mb-2 font-semibold">Jumlah <span class="text-sm text-red-600">*</span></label>
-            <input name="jumlah" class="border rounded-md w-52 px-2 py-1 @error('jumlah') border-red-600 @enderror" type="text" id="jumlah"
-                placeholder="masukan jumlah uang">
-                 @error('jumlah')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            <input name="jumlah" class="border rounded-md w-52 px-2 py-1 @error('jumlah') border-red-600 @enderror"
+                type="text" id="jumlah" placeholder="masukan jumlah uang" value="{{ @old('jumlah') }}">
+            @error('jumlah')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
 
 
 
         <div>
             <label class="block mb-2 font-semibold">Rate <span class="text-sm text-red-600">*</span></label>
-            <input name="rate" class="border rounded-md w-52 px-2 py-1 @error('rate') border-red-600 @enderror" type="text" id="rate"
-                placeholder="masukan jumlah rate uang (Rp)">
-                 @error('rate')
-                <span class="block text-red-600 text-sm">{{$message}}</span>
-                @enderror
+            <input name="rate" class="border rounded-md w-52 px-2 py-1 @error('rate') border-red-600 @enderror"
+                type="text" id="rate" placeholder="masukan jumlah rate uang (Rp)" value="{{ @old('rate') }}">
+            @error('rate')
+            <span class="block text-red-600 text-sm">{{$message}}</span>
+            @enderror
         </div>
 
         <div>
             <label class="block mb-2 font-semibold">Jumlah (Rp)</label>
             <input name="jumlah_rp" class="rounded-md w-52 px-2 py-1 bg-gray-300  focus:outline-0 cursor-auto"
-                type="text" readonly id="jumlah_rp" value="0">
+                type="text" readonly id="jumlah_rp" value="{{ @old('jumlah_rp') !== 0 ? @old('jumlah_rp') : 0 }}">
         </div>
 
     </div>
@@ -272,13 +280,15 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
                 </div>
             </div>
 
-            <div id="struk-footer" class="flex items-center justify-end gap-3 border-t border-gray-200 bg-gray-50 p-4 rounded-b-xl">
+            <div id="struk-footer"
+                class="flex items-center justify-end gap-3 border-t border-gray-200 bg-gray-50 p-4 rounded-b-xl">
                 <button onclick="closeModal()"
                     class="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all duration-200">
                     Tutup
                 </button>
                 <button
-                    class="cursor-pointer rounded-lg bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-500/30 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-200 flex items-center gap-2" onclick="printStruk()">
+                    class="cursor-pointer rounded-lg bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-500/30 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-200 flex items-center gap-2"
+                    onclick="printStruk()">
                     <i class="fa-solid fa-print"></i>
                     Cetak Struk
                 </button>
@@ -287,6 +297,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
     </div>
 </div>
 {{-- end Modal Struk--}}
+<script src="{{ asset('js/currency_api.js') }}"></script>
 <script>
     function modal(){
         const modalCard = document.getElementById('modalCard')
