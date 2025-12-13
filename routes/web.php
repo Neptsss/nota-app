@@ -4,6 +4,7 @@ use App\Http\Controllers\nasabahController;
 use App\Http\Controllers\notaController;
 use App\Http\Controllers\transaksiController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,37 +12,36 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
+| routes are loaded by the RouteServiceProvidelsr and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
 */
 
-// Route::get('/', function () {
-//     return view('nota');
-// });
-
-// Route::get('/', [notaController::class, 'view']);
-// Route::get('/',function(){
-//     return view('welcome');
-// });
 Route::controller(nasabahController::class)->group(function () {
     Route::get('/nasabah', 'index')->name('nasabah.index');
     Route::get('/nasabah/detail', 'show')->name('nasabah.show');
 });
-// Route::controller('/transaksi', transaksiController::Cl);
-Route::controller(transaksiController::class)->group(function(){
 
-    Route::get("/", 'index')->name('transaksi.index');
-    Route::get("/transaksi/detail")->name('transaksi.show');
+Route::controller(transaksiController::class)->group(function () {
+
+    Route::get("/transaksi", 'index')->name('transaksi.index');
+    Route::get("/transaksi/detail", 'show')->name('transaksi.show');
 
     // create
-    Route::get('/transaksi/create','create')->name('transaksi.create');
-    Route::post("/transaksi/create",'store')->name("transaksi.store");
+    Route::get('/transaksi/create', 'create')->name('transaksi.create');
+    Route::post('/transaksi/store', 'store' )->name('transaksi.store');
 
     // Update
-    Route::get("/transaksi/edit", 'edit')->name('transaksi.edit');
-    Route::put('/transaksi/{transaksi:slug}','update')->name('transaksi.update');
+    Route::get('/transaksi/edit','edit')->name('transaksi.edit');
+    // Route::put('/transaksi/{transaksi:slug}', 'update')->name('transaksi.update');
 
     // Delete
-    Route::delete('/transaksi/delete','destroy')->name('transaksi.delete');
+    Route::delete('/transaksi/delete', 'destroy')->name('transaksi.delete');
 });
+
+Route::controller(AuthController::class)->group(function() {
+Route::get('/','index')->name('login');
+Route::post('/','login')->name('login.auth');
+Route::post('/logout','logout')->name('logout');
+});
+

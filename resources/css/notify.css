@@ -1,0 +1,70 @@
+/* Container Notifikasi */
+.notify {
+    position: fixed;
+    inset: 0;
+    pointer-events: none; /* PENTING: Agar tembus mouse, hover sidebar tetap jalan */
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    gap: 1rem;
+}
+
+/* Tampilan Kartu Notifikasi */
+.notify-alert {
+    pointer-events: auto; /* Agar notifikasinya saja yang bisa diklik */
+    position: relative;
+    width: 100%;
+    max-width: 24rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background-color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    border-width: 1px;
+    /* border-color diset otomatis oleh jenis notif (success/error) */
+}
+
+/* Animasi Masuk (Perlu AlpineJS / Script Bawaan) */
+.notify-alert {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+}
+
+/* Styling Text di dalam Notifikasi */
+.notify-content {
+    display: flex;
+    padding: 1rem;
+}
+.notify-icon {
+    flex-shrink: 0;
+    margin-right: 0.75rem;
+}
+.notify-title {
+    font-weight: 600;
+    color: #111827;
+    font-size: 0.875rem;
+}
+.notify-message {
+    margin-top: 0.25rem;
+    color: #4B5563;
+    font-size: 0.875rem;
+}
+.notify-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: #9CA3AF;
+    cursor: pointer;
+}
+.notify-close:hover {
+    color: #111827;
+}
+
+/* Warna Spesifik (Opsional, sesuaikan selera) */
+.notify-success { border-left: 4px solid #10B981; }
+.notify-error { border-left: 4px solid #EF4444; }
+.notify-info { border-left: 4px solid #3B82F6; }
+.notify-warning { border-left: 4px solid #F59E0B; }
