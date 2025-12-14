@@ -13,32 +13,33 @@
             </div>
         </form>
     </div>
-<div class="mt-4">
-    <table class="table-auto ">
-        <thead>
-            <tr>
-                <th class="border border-slate-700 p-4">No Transaksi</th>
-                <th class="border border-slate-700 p-4">Tanggal Transaksi</th>
-                <th class="border border-slate-700 p-4">Jenis Transaksi</th>
-                <th class="border border-slate-700 p-4">Nama Nasabah</th>
-                <th class="border border-slate-700 p-4">Jenis ID</th>
-                <th class="border border-slate-700 p-4">Mata Uang</th>
-                <th class="border border-slate-700 p-4">Total</th>
-                <th class="border border-slate-700 p-4">Action</th>
+    
+<div class="mt-6">
+    <table class="table-responsive w-full bg-white shadow-xl">
+        <thead class="rounded-xl">
+            <tr class="rounded-md">
+                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">No Transaksi</th>
+                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Tanggal Transaksi</th>
+                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Jenis Transaksi</th>
+                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Nama Nasabah</th>
+                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Jenis ID</th>
+                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Mata Uang</th>
+                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Total (Rp)</th>
+                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Action</th>
             </tr>
         </thead>
 
         <tbody>
              @foreach ($transaksi as $item)
             <tr>
-                <td class="border border-slate-700 p-4">{{$item->no_transaksi}}</td>
-                <td class="border border-slate-700 p-4">{{$item->tgl_transaksi}}</td>
-                <td class="border border-slate-700 p-4">{{$item->jenis_transaksi}}</td>
-                <td class="border border-slate-700 p-4">{{$item->nasabah->nama_nasabah}}</td>
-                <td class="border border-slate-700 p-4">{{$item->nasabah->jenis_id}}</td>
-                <td class="border border-slate-700 p-4">{{$item->detail_transaksi->mata_uang->mata_uang}}</td>
-                <td class="border border-slate-700 p-4">RP {{$item->detail_transaksi->sub_total}}</td>
-                <td class="border border-slate-700 p-4">
+                <td class="border border-slate-200 px-4 py-2">{{$item->no_transaksi}}</td>
+                <td class="border border-slate-200 px-4 py-2">{{$item->tgl_transaksi}}</td>
+                <td class="border border-slate-200 px-4 py-2">{{$item->jenis_transaksi}}</td>
+                <td class="border border-slate-200 px-4 py-2">{{$item->nasabah->nama_nasabah}}</td>
+                <td class="border border-slate-200 px-4 py-2">{{$item->nasabah->jenis_id}}</td>
+                <td class="border border-slate-200 px-4 py-2">{{$item->detail_transaksi->mata_uang ?? "IDR"}}</td>
+                <td class="border border-slate-200 px-4 py-2">{{$item->total_harga ?? "0"}}</td>
+                <td class="border border-slate-200 px-4 py-2">
                     <div class="flex justify-center gap-2">
                         <a href="{{ route('transaksi.show') }}"
                             class=" my-5 rounded-md px-2 py-1 block bg-sky-500 text-white hover:scale-110 hover:shadow-md hover:shadow-sky-500/60 transition-all duration-300"><i
