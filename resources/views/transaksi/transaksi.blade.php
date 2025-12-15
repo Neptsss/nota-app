@@ -50,7 +50,9 @@
                         <a href="{{route('transaksi.edit',["transaksi" => $item->id])}}"
                             class=" my-5 rounded-md px-2 py-1 block bg-yellow-500 text-white hover:scale-110 hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300"><i
                                 class="fa-solid fa-pen-to-square"></i></a>
-                        <form action="" method="" class="deleteBtn cursor-pointer">
+                        <form action="{{ route('transaksi.delete',["transaksi"=>$item->id]) }}" method="post" class="deleteBtn cursor-pointer">
+                            @method('DELETE')
+                            @csrf
                             <button type="submit"
                                 class="cursor-pointer my-5 rounded-md px-2 py-1 block bg-red-600 text-white hover:scale-110 hover:shadow-md hover:shadow-red-600/60 transition-all duration-300"><i
                                     class="fa-solid fa-trash-can"></i></button>
