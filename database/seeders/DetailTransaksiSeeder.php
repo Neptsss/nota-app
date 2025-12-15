@@ -15,7 +15,7 @@ class DetailTransaksiSeeder extends Seeder
     {
         detail_transaksi::create([
             "no_transaksi"=> "transaksi_28_11_2025",
-        // "id_mata_uang" => 1,
+            "mata_uang" => "USD",
             "jumlah" => 24.210,
             "rate" => 16.000,
             "sub_total"=>89.3121

@@ -44,45 +44,63 @@ class transaksiController extends Controller
     {
         $validate = $request->validate([
             "no_transaksi" => "required",
-            "tgl_transaksi" => "required|date",
+            "tgl_transaksi" => "required",
             "jenis_transaksi" => "required",
             "nama_nasabah" => "required",
             "no_hp" => "required",
             "jenis_id" => "required",
             "no_id" => "required",
             "mata_uang" => "required",
-            "jumlah" => "required|numeric",
-            "rate" => "required|numeric",
+            "jumlah" => "required",
+            "rate" => "required",
             "jumlah_rp" => "required",
+        ],     [
+            'no_transaksi.required' => "Nomor transaksi wajib diisi!",
+            'tgl_transaksi.required' => "Tanggal transaksi wajib diisi!",
+            'jenis_transaksi.required' => "Jenis transaksi wajib diisi!",
+            'nama_nasabah.required' => "Nama nasabah wajib diisi!",
+            'no_hp.required' => "No hp wajib diisi!",
+            'jenis_id.required' => "Jenis id wajib diisi!",
+            'no_id.required' => "No id wajib diisi!",
+            'mata_uang.required' => "Mata uang wajib diisi!",
+            'jumlah.required' => "Jumlah wajib diisi!",
+            'rate.required' => "Rate wajib diisi!",
         ]);
         if ($validate) {
-            // nasabah
-            $nasabah = nasabah::where('no_hp', $validate["no_hp"])->first();
+            $nasabah = nasabah::where('no_hp', $validate['no_hp'])->first();
             if (!$nasabah) {
-               $nasabah = nasabah::create([
+                $nasabah = nasabah::create([
                     "nama_nasabah" => $validate['nama_nasabah'],
-                    "no_hp" => $validate['no_hp'],
                     "jenis_id" => $validate['jenis_id'],
-                    "no_id" => $validate["no_id"]
+                    "no_id" => $validate['no_id'],
+                    "no_hp" => $validate['no_hp'],
                 ]);
             } else {
-                $nasabah->updated([
+                if ($nasabah->nama_nasabah != $validate['nama_nasabah']) {
+                    notify()->warning('No hp sudah terdaftar');
+                    return back();
+                }
+                $nasabah->update([
                     "jenis_id" => $validate['jenis_id'],
                     "no_id" => $validate['no_id']
                 ]);
             }
+$sub_total = str_replace('.', '', $validate['jumlah_rp']);
+$transaksi = transaksi::create([
+"no_transaksi" => $validate['no_transaksi'],
+"tgl_transaksi" => $validate['tgl_transaksi'],
+"id_nasabah" => $nasabah->id,
+"jenis_transaksi" => $validate['jenis_transaksi'],
+"total_harga" => $sub_total
+]);
 
-            // dd($nasabah);
-            // Transaksi
-            $sub_total = str_replace('.','', $validate['jumlah_rp']);
-            transaksi::create([ 
-                "no_transaksi" => $validate['no_transaksi'],
-                "tgl_transaksi" => $validate['tgl_transaksi'],
-                "id_nasabah" => $nasabah->id,
-                "jenis_transaksi" => $validate['jenis_transaksi'],
-                "total_harga" => $sub_total
-            ]);
-
+detail_transaksi::create([
+"no_transaksi" => $transaksi->no_transaksi,
+"mata_uang" => $validate['mata_uang'],
+"jumlah" => $validate['jumlah'],
+"rate" => $validate['rate'],
+"sub_total" => $sub_total
+]);
             notify()->success('Data transaksi berhasil disimpan');
             return redirect()->route('transaksi.index');
         }

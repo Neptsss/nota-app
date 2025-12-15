@@ -17,12 +17,12 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::controller(nasabahController::class)->group(function () {
+Route::controller(nasabahController::class)->middleware('auth')->group(function () {
     Route::get('/nasabah', 'index')->name('nasabah.index');
     Route::get('/nasabah/detail', 'show')->name('nasabah.show');
 });
 
-Route::controller(transaksiController::class)->group(function () {
+Route::controller(transaksiController::class)->middleware('auth')->group(function () {
 
     Route::get("/transaksi", 'index')->name('transaksi.index');
     Route::get("/transaksi/detail", 'show')->name('transaksi.show');
