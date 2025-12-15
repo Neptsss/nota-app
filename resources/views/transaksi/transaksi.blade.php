@@ -47,7 +47,7 @@
                         <a href=""
                             class=" my-5 rounded-md px-2 py-1 block bg-green-600 text-white hover:scale-110 hover:shadow-md hover:shadow-green-600/60 transition-all duration-300"><i
                                 class="fa-solid fa-print"></i></a>
-                        <a href="{{route('transaksi.edit')}}"
+                        <a href="{{route('transaksi.edit',["transaksi" => $item->id])}}"
                             class=" my-5 rounded-md px-2 py-1 block bg-yellow-500 text-white hover:scale-110 hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300"><i
                                 class="fa-solid fa-pen-to-square"></i></a>
                         <form action="" method="" class="deleteBtn cursor-pointer">

@@ -32,8 +32,8 @@ Route::controller(transaksiController::class)->middleware('auth')->group(functio
     Route::post('/transaksi/store', 'store' )->name('transaksi.store');
 
     // Update
-    Route::get('/transaksi/edit','edit')->name('transaksi.edit');
-    // Route::put('/transaksi/{transaksi:slug}', 'update')->name('transaksi.update');
+    Route::get('/transaksi/{transaksi:id}/edit','edit')->name('transaksi.edit');
+    Route::put('/transaksi/{transaksi:id}', 'update')->name('transaksi.update');
 
     // Delete
     Route::delete('/transaksi/delete', 'destroy')->name('transaksi.delete');

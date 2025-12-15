@@ -33,13 +33,7 @@ class transaksiController extends Controller
             "header" => "Nota Penukaran Valuta Asing"
         ]);
     }
-    public function edit()
-    {
-        return view('transaksi.edit', [
-            "title" => "Transaksi | Edit ",
-            "header" => "Edit Nota Penukaran Valuta Asing"
-        ]);
-    }
+
     public function store(Request $request)
     {
         $validate = $request->validate([
@@ -69,7 +63,7 @@ class transaksiController extends Controller
         if ($validate) {
             $nasabah = nasabah::where('no_hp', $validate['no_hp'])->first();
             if (!$nasabah) {
-                $nasabah = nasabah::create([
+                 $nasabah = nasabah::create([
                     "nama_nasabah" => $validate['nama_nasabah'],
                     "jenis_id" => $validate['jenis_id'],
                     "no_id" => $validate['no_id'],
@@ -85,14 +79,17 @@ class transaksiController extends Controller
                     "no_id" => $validate['no_id']
                 ]);
             }
-$sub_total = str_replace('.', '', $validate['jumlah_rp']);
-$transaksi = transaksi::create([
-"no_transaksi" => $validate['no_transaksi'],
-"tgl_transaksi" => $validate['tgl_transaksi'],
-"id_nasabah" => $nasabah->id,
-"jenis_transaksi" => $validate['jenis_transaksi'],
-"total_harga" => $sub_total
-]);
+
+            // dd($nasabah);
+            // Transaksi
+            $sub_total = str_replace('.','', $validate['jumlah_rp']);
+            transaksi::create([
+                "no_transaksi" => $validate['no_transaksi'],
+                "tgl_transaksi" => $validate['tgl_transaksi'],
+                "id_nasabah" => $nasabah->id,
+                "jenis_transaksi" => $validate['jenis_transaksi'],
+                "total_harga" => $sub_total
+            ]);
 
 detail_transaksi::create([
 "no_transaksi" => $transaksi->no_transaksi,
@@ -105,6 +102,69 @@ detail_transaksi::create([
             return redirect()->route('transaksi.index');
         }
         notify()->error("Transaksi gagal disimpan");
+        return back();
+    }
+
+    public function edit(transaksi $transaksi)
+    {
+        return view('transaksi.edit', [
+            "title" => "Transaksi | Edit ",
+            "header" => "Edit Nota Penukaran Valuta Asing",
+            "transaksi" => $transaksi
+        ]);
+    }
+
+    public function update(Request $request, transaksi $transaksi)
+    {
+        $validate = $request->validate([
+            "no_transaksi" => "required",
+            "tgl_transaksi" => "required|date",
+            "jenis_transaksi" => "required",
+            "nama_nasabah" => "required",
+            "no_hp" => "required",
+            "jenis_id" => "required",
+            "no_id" => "required",
+            "mata_uang" => "required",
+            "jumlah" => "required|numeric",
+            "rate" => "required|numeric",
+            "jumlah_rp" => "required",
+        ]);
+            $nasabah = nasabah::where("no_hp", $validate["no_hp"])->where("id", !$transaksi->nasabah->id)->first();
+            if($nasabah){
+                notify()->warning('Nomor telepon sudah terdaftar');
+                return back();
+            }
+
+            $transaksi->nasabah->update([
+                "nama_nasabah" => $validate["nama_nasabah"],
+                "no_hp" => $validate["no_hp"],
+                "jenis_id" => $validate["jenis_id"],
+                "no_id" => $validate["no_id"]
+            ]);
+
+
+            $sub_total = str_replace('.', '', $validate["jumlah_rp"]);
+
+            $transaksi->update([
+                "no_transaksi" => $validate["no_transaksi"],
+                "tgl_transaksi" => $validate["tgl_transaksi"],
+                "jenis_transaksi" => $validate["jenis_transaksi"],
+                "total_harga" => $sub_total
+            ]);
+            $transaksi->detail_transaksi->update([
+                "mata_uang" => $validate["mata_uang"],
+                "jumlah" => $validate["jumlah"],
+                "rate" => $validate["rate"],
+                "jumlah_rp" => $sub_total
+            ]);
+            notify()->success("Berhasil mengubah data transaksi dengan nomor transaksi ". $transaksi->no_transaksi);
+            return redirect()->route('transaksi.index');
+
+    }
+
+    public function destroy (transaksi $transaksi){
+        $transaksi->delete();
+        notify()->success("Berhasil menghapus data transaksi");
         return back();
     }
 }
