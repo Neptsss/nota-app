@@ -1,40 +1,46 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const currency = document.getElementById('mata_uang');
-    const rate = document.getElementById('rate');
+document.addEventListener('DOMContentLoaded', () => {
+    const mata_uang = document.querySelector('select[name="mata_uang"]')
+    const rateInput = document.querySelector('input[name="rate"]')
 
-    currency.addEventListener('change', () => {
-        let currencyValue = currency.value
-        getExchange(currencyValue)
+    mata_uang.addEventListener('change', (e) => {
+        getCurrency(e.target.value)
     })
 
+    async function getCurrency(currency) {
 
-    async function getExchange(currency) {
-        if (currency === "IDR") {
-            rate.value = 1
-            return;
+        if (currency == "IDR") {
+            rateInput.value = 1
+            return
         }
 
-        rate.value = "loading..."
+        rateInput.value = "Loading..."
 
         try {
-            const respone = await fetch(`https://api.frankfurter.app/latest?from=${currency}&to=IDR`);
-            if (!respone.ok) throw new Error("Gagal mengambil data API");
+            const response = await fetch(`https://api.frankfurter.dev/v1/latest?base=${currency}&symbols=IDR`)
+            if (!response.ok) {
+                throw new Error(`Gagal mendapatkan data : ${response.statusText}`)
+            }
+            console.log(response)
+            const data = await response.json();
 
-            const data = await respone.json()
-
-            let nilaiRate = data.rates.IDR;
-            rate.value = new Intl.NumberFormat('id-ID').format(nilaiRate);
+            const ratesIDR = data.rates.IDR;
+            // rateInput.setAttribute('disabled', 'true')
+            // rateInput.classList.add('bg-gray-300')
+            // rateInput.classList.remove('border')
+            rateInput.value = new Intl.NumberFormat('id-ID').format(ratesIDR);
 
         } catch (err) {
             console.log(err)
-            rate.value = "";
+            // rateInput.removeAttribute('disabled')
+            // rateInput.classList.remove('bg-gray-300')
+            // rateInput.classList.add('border')
+            rateInput.value = ""
+
             Swal.fire({
                 title: "Error",
                 text: `${currency} tidak ditemukan. Mohon input manual.`,
                 icon: "error"
-            });
+            })
         }
-
-
     }
 })
