@@ -25,7 +25,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
                     class="text-sm text-red-600">*</span></label>
             <input name="tgl_transaksi"
                 class="border rounded-md w-52 px-2 py-1 @error('tgl_transaksi') border-red-600 @enderror" type="date"
-                id="tanggal_transaksi">
+                id="tanggal_transaksi" value="{{ @old('tgl_transaksi')}}">
             @error('tgl_transaksi')
             <span class="block text-red-600 text-sm">{{$message}}</span>
             @enderror
@@ -47,7 +47,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
             <label class="block mb-2 font-semibold">Nama Nasabah <span class="text-sm text-red-600">*</span></label>
             <input name="nama_nasabah"
                 class="border rounded-md w-52 px-2 py-1 @error('nama_nasabah') border-red-600 @enderror" type="text"
-                id="nama" placeholder="Masukan nama nasabah">
+                id="nama" placeholder="Masukan nama nasabah" value="{{ @old('nama_nasabah') }}">
             @error('nama_nasabah')
             <span class="block text-red-600 text-sm">{{$message}}</span>
             @enderror
@@ -55,7 +55,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
         <div class="mb-5">
             <label class="block mb-2 font-semibold">No HP <span class="text-sm text-red-600">*</span></label>
             <input name="no_hp" class="border rounded-md w-52 px-2 py-1 @error('no_hp') border-red-600 @enderror"
-                type="text" id="no_hp" placeholder="Masukan nomor HP nasabah">
+                type="text" id="no_hp" placeholder="Masukan nomor HP nasabah" value="{{ @old('no_hp') }}">
             @error('no_hp')
             <span class="block text-red-600 text-sm">{{$message}}</span>
             @enderror
@@ -65,8 +65,8 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
             <select class="border rounded-md w-52 px-2 py-1 @error('jenis_id') border-red-600 @enderror"
                 name="jenis_id">
                 <option selected disabled class="text-center">-- Pilih Jenis ID --</option>
-                <option value="KTP">KTP</option>
-                <option value="SIM">SIM</option>
+                <option value="KTP" {{ @old('jenis_id')=='KTP' ? 'selected' : '' }}>KTP</option>
+                <option value="SIM"  {{ @old('jenis_ID')=='SIM' ? 'selected' : '' }}>SIM</option>
                 <option value="PASPOR">PASPOR</option>
             </select>
             @error('jenis_id')
@@ -76,7 +76,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
         <div class="mb-5">
             <label class="block mb-2 font-semibold">No ID <span class="text-sm text-red-600">*</span></label>
             <input name="no_id" class="border rounded-md w-52 px-2 py-1 @error('no_id') border-red-600 @enderror"
-                type="text" id="no_id" placeholder="Masukan nomor ID ">
+                type="text" id="no_id" placeholder="Masukan nomor ID " value="{{ @old('no_id') }}">
             @error('no_id')
             <span class="block text-red-600 text-sm">{{$message}}</span>
             @enderror
@@ -134,7 +134,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
         <div>
             <label class="block mb-2 font-semibold">Jumlah <span class="text-sm text-red-600">*</span></label>
             <input name="jumlah" class="border rounded-md w-52 px-2 py-1 @error('jumlah') border-red-600 @enderror"
-                type="text" id="jumlah" placeholder="masukan jumlah uang">
+                type="text" id="jumlah" placeholder="masukan jumlah uang" value="{{ @old('jumlah') }}">
             @error('jumlah')
             <span class="block text-red-600 text-sm">{{$message}}</span>
             @enderror
@@ -145,7 +145,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
         <div>
             <label class="block mb-2 font-semibold">Rate <span class="text-sm text-red-600">*</span></label>
             <input name="rate" class="border rounded-md w-52 px-2 py-1 @error('rate') border-red-600 @enderror"
-                type="text" id="rate" placeholder="masukan jumlah rate uang (Rp)">
+                type="text" id="rate" placeholder="masukan jumlah rate uang (Rp)" value="{{ @old('rate') }}">
             @error('rate')
             <span class="block text-red-600 text-sm">{{$message}}</span>
             @enderror
@@ -154,7 +154,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
         <div>
             <label class="block mb-2 font-semibold">Jumlah (Rp)</label>
             <input name="jumlah_rp" class="rounded-md w-52 px-2 py-1 bg-gray-300  focus:outline-0 cursor-auto"
-                type="text" readonly id="jumlah_rp" value="0">
+                type="text" readonly id="jumlah_rp" value="{{ @old('jumlah') }}">
         </div>
 
     </div>

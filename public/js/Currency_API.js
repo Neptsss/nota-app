@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mata_uang.addEventListener('change', (e) => {
         getCurrency(e.target.value)
     })
-    
+
     async function getCurrency(currency) {
 
         if (currency == "IDR") {
@@ -24,16 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             const ratesIDR = data.rates.IDR;
-            rateInput.setAttribute('disabled', 'true')
-            rateInput.classList.add('bg-gray-300')
-            rateInput.classList.remove('border')
+            // rateInput.setAttribute('disabled', 'true')
+            // rateInput.classList.add('bg-gray-300')
+            // rateInput.classList.remove('border')
             rateInput.value = new Intl.NumberFormat('id-ID').format(ratesIDR);
 
         } catch (err) {
             console.log(err)
-            rateInput.removeAttribute('disabled')
-            rateInput.classList.remove('bg-gray-300')
-            rateInput.classList.add('border')
+            // rateInput.removeAttribute('disabled')
+            // rateInput.classList.remove('bg-gray-300')
+            // rateInput.classList.add('border')
             rateInput.value = ""
 
             Swal.fire({

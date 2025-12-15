@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\detail_transaksi;
+use App\Models\nasabah;
 use App\Models\transaksi;
 use Illuminate\Http\Request;
 
@@ -52,8 +54,53 @@ class transaksiController extends Controller
             "jumlah" => "required",
             "rate" => "required",
             "jumlah_rp" => "required",
+        ],     [
+            'no_transaksi.required' => "Nomor transaksi wajib diisi!",
+            'tgl_transaksi.required' => "Tanggal transaksi wajib diisi!",
+            'jenis_transaksi.required' => "Jenis transaksi wajib diisi!",
+            'nama_nasabah.required' => "Nama nasabah wajib diisi!",
+            'no_hp.required' => "No hp wajib diisi!",
+            'jenis_id.required' => "Jenis id wajib diisi!",
+            'no_id.required' => "No id wajib diisi!",
+            'mata_uang.required' => "Mata uang wajib diisi!",
+            'jumlah.required' => "Jumlah wajib diisi!",
+            'rate.required' => "Rate wajib diisi!",
         ]);
         if ($validate) {
+            $nasabah = nasabah::where('no_hp', $validate['no_hp'])->first();
+            if (!$nasabah) {
+                $nasabah = nasabah::create([
+                    "nama_nasabah" => $validate['nama_nasabah'],
+                    "jenis_id" => $validate['jenis_id'],
+                    "no_id" => $validate['no_id'],
+                    "no_hp" => $validate['no_hp'],
+                ]);
+            } else {
+                if ($nasabah->nama_nasabah != $validate['nama_nasabah']) {
+                    notify()->warning('No hp sudah terdaftar');
+                    return back();
+                }
+                $nasabah->update([
+                    "jenis_id" => $validate['jenis_id'],
+                    "no_id" => $validate['no_id']
+                ]);
+            }
+$sub_total = str_replace('.', '', $validate['jumlah_rp']);
+$transaksi = transaksi::create([
+"no_transaksi" => $validate['no_transaksi'],
+"tgl_transaksi" => $validate['tgl_transaksi'],
+"id_nasabah" => $nasabah->id,
+"jenis_transaksi" => $validate['jenis_transaksi'],
+"total_harga" => $sub_total
+]);
+
+detail_transaksi::create([
+"no_transaksi" => $transaksi->no_transaksi,
+"mata_uang" => $validate['mata_uang'],
+"jumlah" => $validate['jumlah'],
+"rate" => $validate['rate'],
+"sub_total" => $sub_total
+]);
             notify()->success('Data transaksi berhasil disimpan');
             return redirect()->route('transaksi.index');
         }
