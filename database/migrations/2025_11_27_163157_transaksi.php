@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id()->autoIncrement();
             $table->string('no_transaksi')->unique();
             $table->date('tgl_transaksi');
-            $table->unsignedBigInteger('id_nasabah');
-            $table->foreign('id_nasabah')->references('id')->on('nasabah');
+            $table->unsignedBigInteger('nasabah_id');
+            $table->foreign('nasabah_id')->references('id')->on('nasabah');
             $table->enum('jenis_transaksi', ['Beli', 'Jual']);
             $table->decimal('total_harga', 19, 2);
             $table->timestamps();

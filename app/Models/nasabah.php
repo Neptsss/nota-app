@@ -11,9 +11,10 @@ class nasabah extends Model
     use HasFactory;
     protected $table = 'nasabah';
     protected $guarded = ['id'];
+    // protected $with = ['transaksi'];
 
     public function transaksi () : HasMany {
-        return $this->hasMany(transaksi::class, "no_transaksi");
+        return $this->hasMany(transaksi::class);
     }
 
 }

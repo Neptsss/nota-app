@@ -14,7 +14,7 @@ class transaksi extends Model
     protected $with = ['nasabah', 'detail_transaksi'];
 
     public function nasabah() : BelongsTo {
-        return $this->belongsTo(nasabah::class, "id_nasabah");
+        return $this->belongsTo(nasabah::class);
     }
 
     public function detail_transaksi() : BelongsTo {
