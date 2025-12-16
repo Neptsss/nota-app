@@ -18,11 +18,14 @@ class transaksiController extends Controller
         ]);
     }
 
-    public function show()
+    public function show(transaksi $transaksi)
     {
+        // dd($transaksi);
         return view('transaksi.show', [
             "title" => "Transaksi | Detail Transaksi",
-            "header" => "Detail Transaksi"
+            "header" => "Detail Transaksi",
+            "transaksi"=>$transaksi,
+            "nasabah"=>$transaksi->nasabah
         ]);
     }
 
@@ -33,11 +36,13 @@ class transaksiController extends Controller
             "header" => "Nota Penukaran Valuta Asing"
         ]);
     }
-    public function edit()
+    public function edit(transaksi $transaksi)
     {
+        // dd($transaksi);
         return view('transaksi.edit', [
             "title" => "Transaksi | Edit ",
-            "header" => "Edit Nota Penukaran Valuta Asing"
+            "header" => "Edit Nota Penukaran Valuta Asing",
+            "transaksi" => $transaksi
         ]);
     }
     public function store(Request $request)
@@ -85,26 +90,42 @@ class transaksiController extends Controller
                     "no_id" => $validate['no_id']
                 ]);
             }
-$sub_total = str_replace('.', '', $validate['jumlah_rp']);
-$transaksi = transaksi::create([
-"no_transaksi" => $validate['no_transaksi'],
-"tgl_transaksi" => $validate['tgl_transaksi'],
-"id_nasabah" => $nasabah->id,
-"jenis_transaksi" => $validate['jenis_transaksi'],
-"total_harga" => $sub_total
-]);
+            $sub_total = str_replace('.', '', $validate['jumlah_rp']);
+            $transaksi = transaksi::create([
+                "no_transaksi" => $validate['no_transaksi'],
+                "tgl_transaksi" => $validate['tgl_transaksi'],
+                "id_nasabah" => $nasabah->id,
+                "jenis_transaksi" => $validate['jenis_transaksi'],
+                "total_harga" => $sub_total
+            ]);
 
-detail_transaksi::create([
-"no_transaksi" => $transaksi->no_transaksi,
-"mata_uang" => $validate['mata_uang'],
-"jumlah" => $validate['jumlah'],
-"rate" => $validate['rate'],
-"sub_total" => $sub_total
-]);
+            detail_transaksi::create([
+                "no_transaksi" => $transaksi->no_transaksi,
+                "mata_uang" => $validate['mata_uang'],
+                "jumlah" => $validate['jumlah'],
+                "rate" => $validate['rate'],
+                "sub_total" => $sub_total
+            ]);
             notify()->success('Data transaksi berhasil disimpan');
             return redirect()->route('transaksi.index');
         }
         notify()->error("Transaksi gagal disimpan");
         return back();
+    }
+    // public function delete($id)
+    // {
+    //     $transaksi = transaksi::where('id',$id)->first(); //select * from transaksi where id="1"
+    //     $transaksi->delete();
+
+    //     notify()->success('Data transaksi berhasil dihapus');
+    //     return back();
+
+         public function delete(transaksi $transaksi)
+    {
+        $transaksi->delete();
+
+        notify()->success('Data transaksi berhasil dihapus');
+        return back();
+
     }
 }

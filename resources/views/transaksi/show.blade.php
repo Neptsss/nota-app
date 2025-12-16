@@ -20,13 +20,13 @@
 
             <tbody>
                 <tr>
-                    <td class="border border-gray-700 p-4">15</td>
-                    <td class="border border-gray-700 p-4">Beli</td>
-                    <td class="border border-gray-700 p-4">SiapaHayo</td>
-                    <td class="border border-gray-700 p-4">KTP</td>
-                    <td class="border border-gray-700 p-4">AUS</td>
-                    <td class="border border-gray-700 p-4">13000</td>
-                    <td class="border border-gray-700 p-4"></td>
+                    <td class="border border-gray-700 p-4">{{$transaksi->tgl_transaksi}}</td>
+                    <td class="border border-gray-700 p-4">{{$transaksi->jenis_transaksi}}</td>
+                    <td class="border border-gray-700 p-4">{{$transaksi->nasabah->nama_nasabah}}</td>
+                    <td class="border border-gray-700 p-4">{{$transaksi->nasabah->jenis_id}}</td>
+                    <td class="border border-gray-700 p-4">{{$transaksi->detail_transaksi->mata_uang}}</td>
+                    <td class="border border-gray-700 p-4">{{$transaksi->detail_transaksi->rate}}</td>
+                    <td class="border border-gray-700 p-4">{{$transaksi->detail_transaksi->sub_total}}</td>
                 </tr>
             </tbody>
         </table>
@@ -47,10 +47,10 @@
 
             <tbody>
                 <tr>
-                    <td class="border border-gray-700 p-4">Anonim</td>
-                    <td class="border border-gray-700 p-4">08123</td>
-                    <td class="border border-gray-700 p-4">KTP</td>
-                    <td class="border border-gray-700 p-4">12345</td>
+                    <td class="border border-gray-700 p-4">{{$nasabah->nama_nasabah}}</td>
+                    <td class="border border-gray-700 p-4">{{$nasabah->no_hp}}</td>
+                    <td class="border border-gray-700 p-4">{{$nasabah->jenis_id}}</td>
+                    <td class="border border-gray-700 p-4">{{$nasabah->no_id}}</td>
                     <td class="border border-gray-700 p-4"></td>
                 </tr>
             </tbody>

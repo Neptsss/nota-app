@@ -13,7 +13,7 @@
             </div>
         </form>
     </div>
-    
+
 <div class="mt-6">
     <table class="table-responsive w-full bg-white shadow-xl">
         <thead class="rounded-xl">
@@ -41,16 +41,18 @@
                 <td class="border border-slate-200 px-4 py-2">{{$item->total_harga ?? "0"}}</td>
                 <td class="border border-slate-200 px-4 py-2">
                     <div class="flex justify-center gap-2">
-                        <a href="{{ route('transaksi.show') }}"
+                        <a href="{{ route('transaksi.show',["transaksi"=>$item->id])}}"
                             class=" my-5 rounded-md px-2 py-1 block bg-sky-500 text-white hover:scale-110 hover:shadow-md hover:shadow-sky-500/60 transition-all duration-300"><i
                                 class="fa-solid fa-eye"></i></a>
                         <a href=""
                             class=" my-5 rounded-md px-2 py-1 block bg-green-600 text-white hover:scale-110 hover:shadow-md hover:shadow-green-600/60 transition-all duration-300"><i
                                 class="fa-solid fa-print"></i></a>
-                        <a href="{{route('transaksi.edit')}}"
+                        <a href="{{route('transaksi.edit',["transaksi"=>$item->id])}}"
                             class=" my-5 rounded-md px-2 py-1 block bg-yellow-500 text-white hover:scale-110 hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300"><i
                                 class="fa-solid fa-pen-to-square"></i></a>
-                        <form action="" method="" class="deleteBtn cursor-pointer">
+                        <form action="{{route('transaksi.delete',["transaksi" => $item->id])}}" method="POST" class="deleteBtn cursor-pointer">
+                            @method('DELETE')
+                            @csrf
                             <button type="submit"
                                 class="cursor-pointer my-5 rounded-md px-2 py-1 block bg-red-600 text-white hover:scale-110 hover:shadow-md hover:shadow-red-600/60 transition-all duration-300"><i
                                     class="fa-solid fa-trash-can"></i></button>
