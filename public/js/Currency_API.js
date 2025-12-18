@@ -1,39 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mata_uang = document.querySelector('select[name="mata_uang"]')
     const rateInput = document.querySelector('input[name="rate"]')
+    const jumlahInput = document.querySelector('input[name="jumlah"]')
+    const jumlahRp = document.querySelector('input[name="jumlah_rp"]')
+
+    const detail_container = document.getElementById('detail_container');
+
 
     mata_uang.addEventListener('change', (e) => {
         getCurrency(e.target.value)
     })
 
+    if (rateInput) {
+        rateInput.addEventListener('input', handleInput)
+    }
+    if (jumlahInput) {
+        jumlahInput.addEventListener('input', handleInput)
+    }
+
+    function convertNumber(value) {
+        if (!value) return 0;
+
+        const convertValue = value.toString().replace(/\./g, '').replace(',', '.');
+
+        return parseFloat(convertValue) || 0;
+    }
+
+    function handleInput(e) {
+        let rawValue = e.target.value.replace(/[^0-9,.]/g, '');
+
+        const parts = rawValue.split(',');
+        if (parts.length > 2) rawValue = parts[0] + ',' + parts.slice(1).join('');
+
+        e.target.value = rawValue;
+
+        hitung()
+    }
+
+    function hitung(){
+        const jumlah = convertNumber(jumlahInput.value);
+        const rate= convertNumber(rateInput.value);
+        const total = jumlah * rate;
+
+        jumlahRp.value = total.toLocaleString('id-ID',{
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        })
+
+    }
+
     async function getCurrency(currency) {
 
         if (currency == "IDR") {
             rateInput.value = 1
+            hitung()
             return
         }
 
         rateInput.value = "Loading..."
+        jumlahRp.value = ""
+
 
         try {
             const response = await fetch(`https://api.frankfurter.dev/v1/latest?base=${currency}&symbols=IDR`)
             if (!response.ok) {
                 throw new Error(`Gagal mendapatkan data : ${response.statusText}`)
             }
-            console.log(response)
             const data = await response.json();
-
             const ratesIDR = data.rates.IDR;
-            // rateInput.setAttribute('disabled', 'true')
-            // rateInput.classList.add('bg-gray-300')
-            // rateInput.classList.remove('border')
-            rateInput.value = new Intl.NumberFormat('id-ID').format(ratesIDR);
+
+            rateInput.value = new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2
+            }).format(ratesIDR);
+
+            hitung()
 
         } catch (err) {
             console.log(err)
-            // rateInput.removeAttribute('disabled')
-            // rateInput.classList.remove('bg-gray-300')
-            // rateInput.classList.add('border')
             rateInput.value = ""
 
             Swal.fire({
@@ -43,4 +87,35 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         }
     }
+
+
+
+
+    // function hitung(e) {
+    //     if (e.target.id == 'rate') {
+    //         let rawValue = e.target.value.replace(/[^0-9]/g, '');
+    //         if (rawValue !== '') {
+    //             e.target.value = parseFloat(rawValue).toLocaleString('id-ID')
+    //         } else {
+    //             e.target.value = '0'
+    //         }
+    //     }
+    //     if (e.target.id === 'jumlah') {
+    //         let rawValue = e.target.value.replace(/[^0-9]/g, '');
+    //         if (rawValue !== '') {
+    //             e.target.value = parseFloat(rawValue)
+    //         } else {
+    //             e.target.value = '0'
+    //         }
+    //     }
+
+    //     const jumlahInput = parseFloat(document.getElementById('jumlah').value.replace(/\./g, '')) || 0;
+    //     const rateInput = parseFloat(document.getElementById('rate').value.replace(/\./g, '')) || 0;
+    //     console.log(jumlahInput)
+    //     console.log(`rate Input : ${rateInput}`)
+    //     console.log(parseFloat(jumlahInput * rateInput))
+    //     const jumlahRp = document.getElementById('jumlah_rp').value = (jumlahInput * rateInput).toLocaleString('id-ID')
+    // }
+
+
 })

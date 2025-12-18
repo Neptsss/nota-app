@@ -1,13 +1,12 @@
 @extends('template.layout')
 @section('content')
 
-<a href="{{ route('transaksi.index')}}"
-    class="block w-36 max-w-[20%] text-center px-4 py-2 border-blue-500 border my-5 rounded-md transition-all
-duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-white hover:-translate-y-1 hover:font-bold">
+<a href="{{ route('transaksi.index')}}" class="block w-36 max-w-[20%] text-center px-4 py-2 border-primary border my-5 rounded-md transition-all
+duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white hover:-translate-y-1 hover:font-bold">
     <i class="fa-regular fa-circle-left"></i>
     <span>Kembali</span>
 </a>
-<form method='post' class="shadow-xl  w-[95%] p-6 rounded-md mx-auto " id="notaForm"
+<form method='post' class="shadow-xl  w-[95%] p-6 rounded-md mx-auto bg-white" id="notaForm"
     action="{{route ('transaksi.store')}}">
     @csrf
     <div class="flex flex-wrap justify-between items-center gap-5 ">
@@ -66,7 +65,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
                 name="jenis_id">
                 <option selected disabled class="text-center">-- Pilih Jenis ID --</option>
                 <option value="KTP" {{ @old('jenis_id')=='KTP' ? 'selected' : '' }}>KTP</option>
-                <option value="SIM"  {{ @old('jenis_ID')=='SIM' ? 'selected' : '' }}>SIM</option>
+                <option value="SIM" {{ @old('jenis_ID')=='SIM' ? 'selected' : '' }}>SIM</option>
                 <option value="PASPOR">PASPOR</option>
             </select>
             @error('jenis_id')
@@ -104,27 +103,11 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
             <select class="border rounded-md w-52 px-2 py-1 @error('mata_uang') border-red-600 @enderror" type="text"
                 name="mata_uang">
                 <option selected disabled class="text-center">-- Pilih Mata Uang --</option>
-                <option>AED</option>
-                <option>AUD</option>
-                <option>BHD</option>
-                <option>BND</option>
-                <option>SAR</option>
-                <option>CAD</option>
-                <option>CHF</option>
-                <option>CNY</option>
-                <option>TWD</option>
-                <option>EUR</option>
-                <option>GBP</option>
-                <option>HKD</option>
-                <option>IDR</option>
-                <option>JPY</option>
-                <option>KRW</option>
-                <option>MYR</option>
-                <option>SGD</option>
-                <option>USD</option>
-                <option>VND</option>
-                <option>ZAR</option>
-                <option>INR</option>
+                @foreach ($mata_uang as $item)
+                <option value={{ $item->mata_uang }} {{ @old('mata_uang') == $item->mata_uang ? 'selected' : '' }}>{{
+                    $item->mata_uang }}</option>
+                @endforeach
+
             </select>
             @error('mata_uang')
             <span class="block text-red-600 text-sm">{{$message}}</span>
@@ -165,10 +148,10 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
 
     <div class="flex items-center gap-5">
         <button type="button"
-            class="border block border-green-600 px-4 py-2 rounded-md transition-all hover:scale-105 duration-300 hover:bg-green-600 hover:text-white hover:shadow-md hover:shadow-green-600/60 hover:font-bold cursor-pointer"
+            class=" block px-4 py-2 rounded-md transition-all hover:scale-105 duration-300 bg-green-600 text-white hover:shadow-md hover:shadow-green-600/60 font-bold cursor-pointer"
             onclick="modal()">Lihat Struk</button>
         <button type="submit"
-            class="border block border-cyan-600 px-4 py-2 rounded-md transition-all hover:scale-105 duration-300 hover:bg-cyan-600 hover:text-white hover:shadow-md hover:shadow-cyan-600/60 hover:font-bold cursor-pointer">Simpan</button>
+            class=" block  px-4 py-2 rounded-md transition-all hover:scale-105 duration-300 bg-cyan-600 text-white hover:shadow-md hover:shadow-cyan-600/60 font-bold cursor-pointer">Simpan</button>
     </div>
 
 </form>
@@ -230,7 +213,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
                     <div class="text-center">:</div>
                     <div class="font-bold text-gray-900" id="struk_no_transaksi">Transaksi-5-11-2025</div>
 
-                    <div class="font-medium text-gray-500" >Jenis Transaksi</div>
+                    <div class="font-medium text-gray-500">Jenis Transaksi</div>
                     <div class="text-center">:</div>
                     <div id="struk_jenis_transaksi">Beli</div>
 
@@ -301,7 +284,8 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
 <script src="{{ asset('js/Currency_API.js') }}"></script>
 
 <script>
-        function modal(){
+    function modal()
+    {
             const modalCard = document.getElementById('modalCard')
 
             const no_transaksi = document.getElementById('struk_no_transaksi')
@@ -384,33 +368,7 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
           }
      }
 
-     const detail_container = document.getElementById('detail_container');
-     detail_container.addEventListener('input', hitung)
-
-     function hitung(e) {
-         if(e.target.id =='rate'){
-             let rawValue = e.target.value.replace(/[^0-9]/g, '');
-              if(rawValue !== ''){
-                 e.target.value = parseFloat(rawValue).toLocaleString('id-ID')
-             }else{
-                 e.target.value = '0'
-             }
-         }
-         if ( e.target.id === 'jumlah') {
-             let rawValue = e.target.value.replace(/[^0-9]/g, '');
-              if(rawValue !== ''){
-                  e.target.value = parseFloat(rawValue)
-             }else{
-                      e.target.value = '0'
-              }
-         }
-
-         const jumlahInput = parseFloat(document.getElementById('jumlah').value.replace(/\./g, '')) || 0;
-         const rateInput = parseFloat(document.getElementById('rate').value.replace(/\./g, '')) || 0;
-         const jumlahRp = document.getElementById('jumlah_rp').value = (jumlahInput * rateInput).toLocaleString('id-ID')
-     }
-
-    function printStruk() {
+     function printStruk() {
     const originalContent = document.querySelector('#modalCard .max-w-lg');
     const printContent = originalContent.cloneNode(true);
     const actionButtons = printContent.querySelector('.rounded-b-xl');
@@ -429,28 +387,30 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
         <title>Cetak Struk Transaksi</title>
         <script src="https://cdn.tailwindcss.com">
             <\/script>
-                <style>
-                    @page { size: auto; margin: 0mm; }
-                    body { margin: 20px; font-family: sans-serif; }
-                    .shadow-2xl { box-shadow: none !important; }
-                    .border { border: 1px solid #e5e7eb !important; }
-                </style>
-            </head>
-            <body class="flex justify-center items-start pt-10">
-                <div class="w-[90%]">
-                    ${printContent.innerHTML}
-                </div>
-            </body>
-            </html>
-        `);
+                        <style>
+                            @page { size: auto; margin: 0mm; }
+                            body { margin: 20px; font-family: sans-serif; }
+                            .shadow-2xl { box-shadow: none !important; }
+                            .border { border: 1px solid #e5e7eb !important; }
+                        </style>
+                    </head>
+                    <body class="flex justify-center items-start pt-10">
+                        <div class="w-[90%]">
+                            ${printContent.innerHTML}
+                        </div>
+                    </body>
+                    </html>
+                `);
 
-        windowPrint.document.close();
-        windowPrint.focus();
+            windowPrint.document.close();
+            windowPrint.focus();
 
-        setTimeout(() => {
-            windowPrint.print();
-            windowPrint.close();
-        }, 500);
-    }
+            setTimeout(() => {
+                windowPrint.print();
+                windowPrint.close();
+            }, 500);
+        }
+
+
 </script>
 @endsection

@@ -17,9 +17,8 @@ class TransaksiSeeder extends Seeder
         transaksi::create([
             "no_transaksi" => "transaksi_28_11_2025",
             "tgl_transaksi"=>Date::now("Asia/Jakarta"),
-            "id_nasabah" => 1,
+            "nasabah_id" => 1,
             "jenis_transaksi" => "Beli",
-            "total_harga"=>21.0321321
         ]);
     }
 }
