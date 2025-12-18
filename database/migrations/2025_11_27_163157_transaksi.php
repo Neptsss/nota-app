@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('nasabah_id');
             $table->foreign('nasabah_id')->references('id')->on('nasabah');
             $table->enum('jenis_transaksi', ['Beli', 'Jual']);
-            $table->decimal('total_harga', 19, 2);
             $table->timestamps();
         });
     }

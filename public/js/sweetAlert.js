@@ -1,6 +1,5 @@
 
 const deleteBtn = document.querySelectorAll('.deleteBtn');
-console.log(deleteBtn)
 deleteBtn.forEach(form => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();

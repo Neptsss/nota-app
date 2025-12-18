@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\detail_transaksi;
+use App\Models\mata_uang;
 use App\Models\nasabah;
 use App\Models\transaksi;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class transaksiController extends Controller
         return view('transaksi.transaksi', [
             "title" => "Transaksi",
             "header" => "Daftar Transaksi",
-            "transaksi" => transaksi::all()
+            "transaksi" => transaksi::all(),
+            "mata_uang" => mata_uang::all()
         ]);
     }
 
@@ -33,7 +35,8 @@ class transaksiController extends Controller
     {
         return view('transaksi.create', [
             "title" => "Transaksi | Tambah Create",
-            "header" => "Nota Penukaran Valuta Asing"
+            "header" => "Nota Penukaran Valuta Asing",
+            "mata_uang"=>mata_uang::all()
         ]);
     }
     public function edit(transaksi $transaksi)
@@ -42,13 +45,14 @@ class transaksiController extends Controller
         return view('transaksi.edit', [
             "title" => "Transaksi | Edit ",
             "header" => "Edit Nota Penukaran Valuta Asing",
-            "transaksi" => $transaksi
+            "transaksi" => $transaksi,
+            "mata_uang"=>mata_uang::all()
         ]);
     }
     public function store(Request $request)
     {
         $validate = $request->validate([
-            "no_transaksi" => "required",
+            "no_transaksi" => "required|unique:transaksi,no_transaksi",
             "tgl_transaksi" => "required",
             "jenis_transaksi" => "required",
             "nama_nasabah" => "required",
@@ -61,6 +65,7 @@ class transaksiController extends Controller
             "jumlah_rp" => "required",
         ],     [
             'no_transaksi.required' => "Nomor transaksi wajib diisi!",
+            'no_transaksi.unique' => "Nomor transaksi sudah ada!",
             'tgl_transaksi.required' => "Tanggal transaksi wajib diisi!",
             'jenis_transaksi.required' => "Jenis transaksi wajib diisi!",
             'nama_nasabah.required' => "Nama nasabah wajib diisi!",
@@ -90,21 +95,22 @@ class transaksiController extends Controller
                     "no_id" => $validate['no_id']
                 ]);
             }
-            $sub_total = str_replace('.', '', $validate['jumlah_rp']);
-            // dd($sub_total);
+            $sub_total = $this->formatHarga($validate['jumlah_rp']);
+            $jumlah = $this->formatHarga($validate['jumlah']);
+            $rate = $this->formatHarga($validate['rate']);
+
             $transaksi = transaksi::create([
                 "no_transaksi" => $validate['no_transaksi'],
                 "tgl_transaksi" => $validate['tgl_transaksi'],
                 "nasabah_id" => $nasabah->id,
                 "jenis_transaksi" => $validate['jenis_transaksi'],
-                "total_harga" => $sub_total
             ]);
 
             detail_transaksi::create([
                 "no_transaksi" => $transaksi->no_transaksi,
                 "mata_uang" => $validate['mata_uang'],
-                "jumlah" => $validate['jumlah'],
-                "rate" => $validate['rate'],
+                "jumlah" => $jumlah,
+                "rate" => $rate,
                 "sub_total" => $sub_total
             ]);
             notify()->success('Data transaksi berhasil disimpan');
@@ -131,7 +137,7 @@ class transaksiController extends Controller
     public function update(transaksi $transaksi, request $request)
     {
         $validate = $request->validate([
-            "no_transaksi" => "required",
+            "no_transaksi" => "required|unique:transaksi,no_transaksi,".$transaksi->id,
             "tgl_transaksi" => "required",
             "jenis_transaksi" => "required",
             "nama_nasabah" => "required",
@@ -156,47 +162,38 @@ class transaksiController extends Controller
         ]);
         $nasabah = nasabah::where("no_hp", $validate['no_hp'])->where("id", !$transaksi->nasabah->id)->first();
         if ($nasabah) {
-notify()->warning('Nomor telepon sudah terdaftar');
-return back();
+            notify()->warning('Nomor telepon sudah terdaftar');
+            return back();
         }
         $transaksi->nasabah->update([
-"nama_nasabah" => $validate["nama_nasabah"],
-"no_hp" => $validate["no_hp"],
-"jenis_id" => $validate["jenis_id"],
-"no_id" => $validate["no_id"]
+            "nama_nasabah" => $validate["nama_nasabah"],
+            "no_hp" => $validate["no_hp"],
+            "jenis_id" => $validate["jenis_id"],
+            "no_id" => $validate["no_id"]
         ]);
 
-        $sub_total = str_replace('.','', $validate["jumlah_rp"]);
+        $sub_total = $this->formatHarga($validate['jumlah_rp']);
+        $jumlah = $this->formatHarga($validate['jumlah']);
+        $rate = $this->formatHarga($validate['rate']);
+
         $transaksi->update([
-"no_transaksi" => $validate["no_transaksi"],
-"tgl_transaksi" => $validate["tgl_transaksi"],
-"jenis_transaksi" => $validate["jenis_transaksi"],
-"total_harga" => $sub_total
+            "no_transaksi" => $validate["no_transaksi"],
+            "tgl_transaksi" => $validate["tgl_transaksi"],
+            "jenis_transaksi" => $validate["jenis_transaksi"],
         ]);
         $transaksi->detail_transaksi->update([
-"mata_uang" => $validate["mata_uang"],
-"jumlah" => $validate["jumlah"],
-"rate" => $validate["rate"],
-"jumlah_rp" => $sub_total
+            "mata_uang" => $validate["mata_uang"],
+            "jumlah" => $jumlah,
+            "rate" => $rate,
+            "sub_total" => $sub_total
         ]);
-        notify()->success("Berhasil mengubah data transaksi dengan nomor transaksi".$transaksi->no_transaksi);
+        notify()->success("Berhasil mengubah data transaksi dengan nomor transaksi " . $transaksi->no_transaksi);
         return redirect()->route('transaksi.index');
     }
+
+    public function formatHarga($value)
+    {
+        $formatHarga = str_replace('.', '', $value);
+        return str_replace(',', '.', $formatHarga);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

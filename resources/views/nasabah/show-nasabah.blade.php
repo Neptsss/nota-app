@@ -1,14 +1,13 @@
 @extends('template.layout')
 @section('content')
-<p class="text-2xl text-primary font-bold ">Daftar Transaksi {{ $nasabah->nama_nasabah }}</p>
-<a href="{{ route('nasabah.index')}}"
-    class="block w-36 max-w-[20%] text-center px-4 py-2 border-blue-500 border my-5 rounded-md transition-all
-duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-white hover:-translate-y-1 hover:font-bold">
+<a href="{{ route('nasabah.index')}}" class="block w-36 max-w-[20%] text-center px-4 py-2 border-primary border my-5 rounded-md transition-all
+duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white hover:-translate-y-1 hover:font-bold">
     <i class="fa-regular fa-circle-left"></i>
     <span>Kembali</span>
 </a>
-<div class="mt-6">
-    <table class="shadow-md">
+<div class="mt-6 bg-white p-6 rounded-md shadow-md">
+    <p class="text-2xl text-primary font-bold mb-4 text-shadow-sm">Daftar Transaksi {{ $nasabah->nama_nasabah }}</p>
+    <table class="w-full">
         <thead>
             <tr>
                 <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">No Transaksi</th>
@@ -28,8 +27,8 @@ duration-300 hover:shadow-md shadow-blue-500/60 hover:bg-blue-500 hover:text-whi
                 <td class="border border-slate-200 px-4 py-2">{{$item->jenis_transaksi}}</td>
                 <td class="border border-slate-200 px-4 py-2">{{$item->nasabah->nama_nasabah}}</td>
                 <td class="border border-slate-200 px-4 py-2">{{$item->nasabah->jenis_id}}</td>
-                <td class="border border-slate-200 px-4 py-2">{{$item->detail_transaksi->mata_uang ?? "IDR"}}</td>
-                <td class="border border-slate-200 px-4 py-2">{{$item->total_harga ?? "0"}}</td>
+                <td class="border border-slate-200 px-4 py-2">{{$item->detail_transaksi->mata_uang }}</td>
+                <td class="border border-slate-200 px-4 py-2">{{number_format($item->detail_transaksi->sub_total, 2, ',', '.')}}</td>
             </tr>
             @endforeach
         </tbody>

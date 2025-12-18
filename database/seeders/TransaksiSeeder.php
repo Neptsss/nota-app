@@ -19,7 +19,6 @@ class TransaksiSeeder extends Seeder
             "tgl_transaksi"=>Date::now("Asia/Jakarta"),
             "nasabah_id" => 1,
             "jenis_transaksi" => "Beli",
-            "total_harga"=>21.0321321
         ]);
     }
 }
