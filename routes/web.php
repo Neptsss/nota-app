@@ -29,20 +29,19 @@ Route::controller(transaksiController::class)->middleware('auth')->group(functio
 
     // create
     Route::get('/transaksi/create', 'create')->name('transaksi.create');
-    Route::post('/transaksi/store', 'store' )->name('transaksi.store');
+    Route::post('/transaksi/store', 'store')->name('transaksi.store');
 
     // Update
-    Route::get('/transaksi/{transaksi:id}/edit','edit')->name('transaksi.edit');
-
+    Route::get('/transaksi/{transaksi:id}/edit', 'edit')->name('transaksi.edit');
+    Route::put('/transaksi/{transaksi:id}/edit', 'update')->name('transaksi.update');
     // Route::put('/transaksi/{transaksi:slug}', 'update')->name('transaksi.update');
 
     //Route::delete('/transaksi/{id}/delete','delete')->name('transaksi.delete');
-   Route::delete('/transaksi/{transaksi:id}/delete','delete')->name('transaksi.delete');
+    Route::delete('/transaksi/{transaksi:id}/delete', 'delete')->name('transaksi.delete');
 });
 
-Route::controller(AuthController::class)->group(function() {
-Route::get('/','index')->name('login');
-Route::post('/','login')->name('login.auth');
-Route::post('/logout','logout')->name('logout');
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/', 'index')->name('login');
+    Route::post('/', 'login')->name('login.auth');
+    Route::post('/logout', 'logout')->name('logout');
 });
-

@@ -24,8 +24,8 @@ class transaksiController extends Controller
         return view('transaksi.show', [
             "title" => "Transaksi | Detail Transaksi",
             "header" => "Detail Transaksi",
-            "transaksi"=>$transaksi,
-            "nasabah"=>$transaksi->nasabah
+            "transaksi" => $transaksi,
+            "nasabah" => $transaksi->nasabah
         ]);
     }
 
@@ -91,10 +91,11 @@ class transaksiController extends Controller
                 ]);
             }
             $sub_total = str_replace('.', '', $validate['jumlah_rp']);
+            // dd($sub_total);
             $transaksi = transaksi::create([
                 "no_transaksi" => $validate['no_transaksi'],
                 "tgl_transaksi" => $validate['tgl_transaksi'],
-                "id_nasabah" => $nasabah->id,
+                "nasabah_id" => $nasabah->id,
                 "jenis_transaksi" => $validate['jenis_transaksi'],
                 "total_harga" => $sub_total
             ]);
@@ -120,12 +121,82 @@ class transaksiController extends Controller
     //     notify()->success('Data transaksi berhasil dihapus');
     //     return back();
 
-         public function delete(transaksi $transaksi)
+    public function delete(transaksi $transaksi)
     {
         $transaksi->delete();
 
         notify()->success('Data transaksi berhasil dihapus');
         return back();
+    }
+    public function update(transaksi $transaksi, request $request)
+    {
+        $validate = $request->validate([
+            "no_transaksi" => "required",
+            "tgl_transaksi" => "required",
+            "jenis_transaksi" => "required",
+            "nama_nasabah" => "required",
+            "no_hp" => "required",
+            "jenis_id" => "required",
+            "no_id" => "required",
+            "mata_uang" => "required",
+            "jumlah" => "required",
+            "rate" => "required",
+            "jumlah_rp" => "required",
+        ],     [
+            'no_transaksi.required' => "Nomor transaksi wajib diisi!",
+            'tgl_transaksi.required' => "Tanggal transaksi wajib diisi!",
+            'jenis_transaksi.required' => "Jenis transaksi wajib diisi!",
+            'nama_nasabah.required' => "Nama nasabah wajib diisi!",
+            'no_hp.required' => "No hp wajib diisi!",
+            'jenis_id.required' => "Jenis id wajib diisi!",
+            'no_id.required' => "No id wajib diisi!",
+            'mata_uang.required' => "Mata uang wajib diisi!",
+            'jumlah.required' => "Jumlah wajib diisi!",
+            'rate.required' => "Rate wajib diisi!",
+        ]);
+        $nasabah = nasabah::where("no_hp", $validate['no_hp'])->where("id", !$transaksi->nasabah->id)->first();
+        if ($nasabah) {
+notify()->warning('Nomor telepon sudah terdaftar');
+return back();
+        }
+        $transaksi->nasabah->update([
+"nama_nasabah" => $validate["nama_nasabah"],
+"no_hp" => $validate["no_hp"],
+"jenis_id" => $validate["jenis_id"],
+"no_id" => $validate["no_id"]
+        ]);
 
+        $sub_total = str_replace('.','', $validate["jumlah_rp"]);
+        $transaksi->update([
+"no_transaksi" => $validate["no_transaksi"],
+"tgl_transaksi" => $validate["tgl_transaksi"],
+"jenis_transaksi" => $validate["jenis_transaksi"],
+"total_harga" => $sub_total
+        ]);
+        $transaksi->detail_transaksi->update([
+"mata_uang" => $validate["mata_uang"],
+"jumlah" => $validate["jumlah"],
+"rate" => $validate["rate"],
+"jumlah_rp" => $sub_total
+        ]);
+        notify()->success("Berhasil mengubah data transaksi dengan nomor transaksi".$transaksi->no_transaksi);
+        return redirect()->route('transaksi.index');
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
