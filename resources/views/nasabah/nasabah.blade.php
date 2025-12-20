@@ -3,33 +3,57 @@
 
 <div class="bg-white p-5 rounded-md shadow-md mt-10">
     <div class="my-5">
-        <form action="" id="searchForm" class="flex items-center gap-5">
-            <div>
-                <input type="text" class="w-full px-2 py-1 border rounded-md block" placeholder="Nama nasabah" autofocus>
+        <form action="{{ route('nasabah.index') }}" id="searchForm" method="get">
+            <div class="flex items-center gap-5">
+                <div class="border rounded-xl w-1/4 flex justify-between items-center px-2 ">
+                    <i class="fa-solid fa-magnifying-glass block"></i>
+                    <input type="text" class="w-full px-2 py-1  focus:outline-none rounded-md block" placeholder="Cari Nama Nasabah"
+                        autofocus name="nama_nasabah" value="{{ request('nama_nasabah') }}">
+                </div>
+
+                <div
+                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
+                    <i class="fa-solid fa-arrow-down-short-wide" onclick="filter(this)"></i>
+                </div>
+                <span onclick="reset()"
+                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                </span>
+
+                <button type="submit"
+                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
+                    <i class="fa-solid fa-magnifying-glass block"></i>
+                </button>
             </div>
-            <div>
-                <input type="text" class="w-full px-2 py-1 border rounded-md block" placeholder="No Handphone">
+
+            <div class="mt-5 bg-white rounded-md shadow-md transition-all duration-500 ease-in-out overflow-hidden max-h-0 opacity-0"
+                id="filter">
+
+                <div class="p-5">
+                    <div class="flex items-center justify-center gap-5">
+                        <div>
+                            <input type="text" class="w-full px-2 py-1 border rounded-md block" placeholder="No Handphone" name="no_hp"
+                                value="{{ request('no_hp') }}">
+                        </div>
+                        <div>
+                            <input type="text" class="w-full px-2 py-1 border rounded-md block" placeholder="No ID" name="no_id"
+                                value="{{ request('no_id') }}">
+                        </div>
+                        <select name="jenis_id" id="" class="border rounded-md px-2 py-1 ">
+                            <option selected disabled>-- Pilih Jenis ID --</option>
+                            <option value="" {{ request('jenis_id') == '' ? 'selected': '' }}>Semua ID</option>
+                            <option value="KTP" {{ request('jenis_id')=="KTP" ? 'selected' : '' }}>KTP</option>
+                            <option value="SIM" {{ request('jenis_id')=="SIM" ? 'selected' : '' }}>SIM</option>
+                            <option value="PASPOR" {{ request('jenis_id')=="PASPOR" ? 'selected' : '' }}>PASPOR</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div>
-                <input type="text" class="w-full px-2 py-1 border rounded-md block" placeholder="No ID">
-            </div>
-            <select name="jenis_id" id="" class="border rounded-md px-2 py-1 ">
-                <option selected disabled>-- Pilih Jenis ID --</option>
-                <option value="">Semua ID</option>
-                <option value="KTP">KTP</option>
-                <option value="SIM">SIM</option>
-                <option value="PASPOR">PASPOR</option>
-            </select>
-            <div
-                class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
-                <i class="fa-solid fa-arrow-rotate-left"></i>
-            </div>
-            <button type="submit"
-                class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
-                <i class="fa-solid fa-magnifying-glass block"></i>
-            </button>
+
+
         </form>
     </div>
+
     <table class="table-auto mt-3 w-full">
         <thead>
           <tr>
@@ -42,9 +66,9 @@
             <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Action</th>
         </tr>
         </thead>
-    
+
         <tbody>
-            @foreach ($nasabah as $item)
+            @forelse ($nasabah as $item)
             <tr>
                 <td class=" border border-slate-200 px-4 py-2">{{ $loop->iteration }}</td>
                 <td class=" border border-slate-200 px-4 py-2">{{ $item->nama_nasabah }}</td>
@@ -57,7 +81,7 @@
                         <i
                             class="fa-solid fa-eye absolute text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:opacity-100 opacity-0"></i>
                     </div>
-    
+
                 </td>
                 <td class=" border border-slate-200 px-4 py-2">
                     <a href="{{ route('nasabah.show',['nasabah'=>$item->id]) }}"
@@ -65,10 +89,13 @@
                       <i class="fa-solid fa-money-check-dollar"></i>
                     <p>Daftar Transaksi</p>
                     </a>
-    
+
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <td colspan="9" class="text-center border border-slate-200 px-4 py-4 text-lg font-semibold">Tidak ada data
+                nasabah yang ditemukan</td>
+            @endforelse
         </tbody>
     </table>
 </div>
@@ -102,6 +129,38 @@
 </div>
 
 <script>
+   function reset(){
+let currentURL = new URL(window.location.href);
+currentURL.search = '';
+window.location.href = '';
+
+window.location.href = currentURL.toString()
+
+}
+
+
+
+function filter(e) {
+const filterContainer = document.querySelector('#filter');
+
+if (filterContainer.classList.contains('max-h-0')) {
+filterContainer.classList.remove('max-h-0', 'opacity-0');
+filterContainer.classList.add('max-h-[500px]', 'opacity-100');
+
+} else {
+filterContainer.classList.remove('max-h-[500px]', 'opacity-100');
+filterContainer.classList.add('max-h-0', 'opacity-0');
+}
+
+if (e.classList.contains('fa-arrow-down-short-wide')) {
+e.classList.remove('fa-arrow-down-short-wide');
+e.classList.add('fa-arrow-up-short-wide');
+} else {
+e.classList.remove('fa-arrow-up-short-wide');
+e.classList.add('fa-arrow-down-short-wide');
+}
+}
+
     function toggleModal(show){
     const modal = document.getElementById('imageModal')
     const modalContent = document.getElementById('modalContent')

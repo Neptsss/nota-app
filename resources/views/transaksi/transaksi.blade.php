@@ -4,26 +4,25 @@
     class="block w-1/4  text-center px-4 py-2 my-5 rounded-md transition-all duration-500 hover:shadow-md shadow-primary/60 bg-primary text-white hover:scale-105 ease-in-out hover:font-bold font-semibold">Tambah
     Transaksi</a>
 
-
-
 <div class="mt-6 bg-white p-6 rounded-md shadow-md">
     <div class="my-5">
-        <form action="" id="searchForm">
+        <form action="{{ route('transaksi.index') }}" id="searchForm" method="get">
             <div class="flex items-center gap-5">
                 <div class="border rounded-xl w-1/4 flex justify-between items-center px-2 ">
                     <i class="fa-solid fa-magnifying-glass block"></i>
                     <input type="text" class="w-full px-2 py-1  focus:outline-none rounded-md block"
-                        placeholder="Cari No Transaksi" autofocus>
+                        placeholder="Cari No Transaksi" autofocus name="no_transaksi"
+                        value="{{ request('no_transaksi') }}">
                 </div>
 
                 <div
                     class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
                     <i class="fa-solid fa-arrow-down-short-wide" onclick="filter(this)"></i>
                 </div>
-                <div
+                <span  onclick="reset()"
                     class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
                     <i class="fa-solid fa-arrow-rotate-left"></i>
-                </div>
+                </span>
 
                 <button type="submit"
                     class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
@@ -31,46 +30,53 @@
                 </button>
             </div>
 
-           <div class="mt-5 bg-white rounded-md shadow-md transition-all duration-500 ease-in-out overflow-hidden max-h-0 opacity-0"
-            id="filter">
-        
-            <div class="p-5">
-                <div class="flex items-center justify-center gap-5">
-                    <div>
-                        <input type="date" class="w-full px-2 py-1 border rounded-md block">
-                    </div>
-                    <div>
-                        <select name="jenis_transaksi" class="px-2 py-1 border rounded md">
-                            <option selected disabled>-- Pilih Jenis Transaksi --</option>
-                            <option value="">Semua Jenis Transaksi</option>
-                            <option value="Beli">Beli</option>
-                            <option value="Jual">Jual</option>
-                        </select>
-                    </div>
-                    <div>
-                        <input type="text" class="w-full px-2 py-1 border rounded-md block" placeholder="Nama Nasabah">
-                    </div>
-                    <div>
-                        <select name="jenis_id" class="px-2 py-1 border rounded md">
-                            <option selected disabled>-- Pilih Jenis ID --</option>
-                            <option value="">Semua Jenis ID</option>
-                            <option value="KTP">KTP</option>
-                            <option value="SIM">SIM</option>
-                            <option value="PASPOR">PASPOR</option>
-                        </select>
-                    </div>
-                    <div>
-                        <select name="mata_uang" class="px-2 py-1 border rounded md">
-                            <option selected disabled>-- Pilih Mata Uang --</option>
-                            <option value="">Semua Mata Uang</option>
-                            @foreach ($mata_uang as $item)
-                            <option value="{{ $item->mata_uang }}">{{ $item->mata_uang }}</option>
-                            @endforeach
-                        </select>
+            <div class="mt-5 bg-white rounded-md shadow-md transition-all duration-500 ease-in-out overflow-hidden max-h-0 opacity-0"
+                id="filter">
+
+                <div class="p-5">
+                    <div class="flex items-center justify-center gap-5">
+                        <div>
+                            <input type="date" class="w-full px-2 py-1 border rounded-md block" name="tgl_transaksi"
+                                value="{{ request('tgl_transaksi') }}">
+                        </div>
+                        <div>
+                            <select name="jenis_transaksi" class="px-2 py-1 border rounded md">
+                                <option selected disabled>-- Pilih Jenis Transaksi --</option>
+                                <option value="" {{ request('jenis_transaksi') == '' ? 'selected': '' }}>Semua Jenis Transaksi</option>
+                                <option value="Beli" {{ request('jenis_transaksi')=="Beli" ? 'selected' : '' }}>Beli
+                                </option>
+                                <option value="Jual" {{ request('jenis_transaksi')=="Jual" ? 'selected' : '' }}>Jual
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <input type="text" class="w-full px-2 py-1 border rounded-md block"
+                                placeholder="Nama Nasabah" name="nama_nasabah" value="{{ request('nama_nasabah') }}">
+                        </div>
+                        <div>
+                            <select name="jenis_id" class="px-2 py-1 border rounded md">
+                                <option selected disabled>-- Pilih Jenis ID --</option>
+                                <option value="" {{ request('jenis_id') == '' ? 'selected': '' }}>Semua Jenis ID</option>
+                                <option value="KTP" {{ request('jenis_id')=="KTP" ? 'selected' : '' }}>KTP</option>
+                                <option value="SIM" {{ request('jenis_id')=="SIM" ? 'selected' : '' }}>SIM</option>
+                                <option value="PASPOR" {{ request('jenis_id')=="PASPOR" ? 'selected' : '' }}>PASPOR
+                                </option>
+                            </select>
+                        </div>
+                        <div>
+                            <select name="mata_uang" class="px-2 py-1 border rounded md">
+                                <option selected disabled>-- Pilih Mata Uang --</option>
+                                <option value="" {{ request('mata_uang') == '' ? 'selected': '' }}>Semua Mata Uang</option>
+                                @foreach ($mata_uang as $item)
+                                <option value="{{ $item->mata_uang }}" {{ request('mata_uang')== $item->mata_uang ?
+                                    'selected' : '' }}>{{ $item->mata_uang }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
         </form>
@@ -91,7 +97,7 @@
         </thead>
 
         <tbody>
-            @foreach ($transaksi as $item)
+            @forelse ($transaksi as $item)
             <tr>
                 <td class="border border-slate-200 px-4 py-2 ">{{$loop->iteration}}</td>
                 <td class="border border-slate-200 px-4 py-2 ">{{$item->no_transaksi}}</td>
@@ -140,7 +146,10 @@
 
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <td colspan="9" class="text-center border border-slate-200 px-4 py-4 text-lg font-semibold">Tidak ada data
+                transaksi yang ditemukan</td>
+            @endforelse
         </tbody>
         <tfoot>
             <tr>
@@ -249,7 +258,19 @@
 {{-- end Modal Struk--}}
 
 <script>
-  function filter(e) {
+
+    function reset(){
+       let currentURL = new URL(window.location.href);
+       currentURL.search = '';
+       window.location.href = '';
+
+       window.location.href = currentURL.toString()
+
+    }
+
+
+
+    function filter(e) {
     const filterContainer = document.querySelector('#filter');
 
     if (filterContainer.classList.contains('max-h-0')) {

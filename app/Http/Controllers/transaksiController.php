@@ -10,12 +10,14 @@ use Illuminate\Http\Request;
 
 class transaksiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // dd(request());
+        // dd($request->all());
         return view('transaksi.transaksi', [
             "title" => "Transaksi",
             "header" => "Daftar Transaksi",
-            "transaksi" => transaksi::all(),
+            "transaksi" => transaksi::filters(request(['no_transaksi','tgl_transaksi','jenis_transaksi',"nama_nasabah", "jenis_id", "mata_uang"]))->get(),
             "mata_uang" => mata_uang::all()
         ]);
     }

@@ -7,7 +7,7 @@
     <script src="https://kit.fontawesome.com/4daff5ca84.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="bg-[#F1F5F9]">
+<body class="">
     <x-notify::notify />
 
     @yield('section-auth')
