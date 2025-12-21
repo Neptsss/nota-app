@@ -1,5 +1,5 @@
 <aside
-    class="group bg-primary fixed top-0 left-0 h-full w-20 hover:w-64 transition-all duration-300 ease-in-out shadow-lg overflow-hidden z-50 flex flex-col">
+    class="group bg-primary fixed top-0 left-0 h-full w-20 hover:w-64 transition-all duration-300 ease-in-out shadow-lg overflow-hidden z-999 flex flex-col">
 
     <div class="mb-10">
         <div class="flex justify-center items-center my-5">

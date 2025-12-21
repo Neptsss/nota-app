@@ -23,13 +23,41 @@ class transaksi extends Model
         return $this->belongsTo(detail_transaksi::class, "no_transaksi", "no_transaksi");
     }
 
+    /*
+     ? scopeFilters 
+     * Method atau function yang bertujuan untuk mencari atau memfilter data yang dicari 
+     
+     ? PARAMETER
+     * $query : merupakan instance atau objek dari class Builder milik laravel yang berfungsi untuk menangani query atau perintah SQL ( SELECT no_transaksi WHERE no_transaksi = ....)
+     * array $filter : merupakan variabel yang digunakan untuk menangkap data yang di cari, bertipe array karena data yang dicari lebih dari 1
+     
+     ? Penggunaan 
+     * Untuk penggunaan method ini diterapkan pada controller, contohnya pada transaksiController. 
+     * Pemanggilannya tidak persis nama methodnya cukup gunakan kalimat setelah 'scope', contohnya pada method atau function ini bernama 'scopeFilters' maka ketika dipanggil cukup tuliskan 'Filters'
+     * Hal ini dikarenakan laravel 
+     */
 
     public function scopeFilters($query, array $filter)
     {
-
+        /*
+         ? when()
+         * query apakah ada filter dengan kunci no_transaksi ? jika tidak (false) maka abaikan, namun jika ada program akan menjalankan function.
+         
+        */
         $query->when($filter['no_transaksi'] ?? false, function ($query, $no_transaksi) {
-            return $query->where('no_transaksi', $no_transaksi);
+
+            // * jika filter dengan kunci array no_transaksi ditemukan maka program akan masuk ke statement ini
+
+            // * query tolong carikan no_transaksi yang memiliki ....
+
+            // * contoh : user mencari no_transaksi : abcd -> query tolong carikan no_transaksi yang memiliki karakter atau huruf abcd ( karena menggunakan like & ( % ) depan belakang)
+
+            // * return : mengembalikan nilai yang ditemukan
+            return $query->where('no_transaksi', 'LIKE', "%{$no_transaksi}%");
         });
+
+        // * karena tidak menggunakan % maka data yang dicari dan data yang ada harus sama persis
+        // * contohya jika mencari tanggal 10 (tidak menyertakan bulan) dan di database terdapat data 10 Desember maka data 10 Desember ini tidak akan tampil karena tidak cocok dengan data yang dicari. ( 10 != 10 Desember) 
 
         $query->when($filter['tgl_transaksi'] ?? false, function ($query, $tgl_transaksi) {
             return $query->where('tgl_transaksi', $tgl_transaksi);
@@ -40,8 +68,18 @@ class transaksi extends Model
         });
 
         $query->when($filter['nama_nasabah'] ?? false, function ($query, $nama_nasabah) {
+
+            /*
+             ? whereHas()
+             * digunakan ketika ingin mencari data dari tabel lain yang memiliki relasi
+             * Dalam model transaksi ini karena memiliki relasi dengan nasabah maka program dapat membaca data dari tabel nasabah juga menggunakan whereHas ini.  
+             
+             ? use ($nama_nasabah)
+             * kode ini berarti mengambil variabel $nama_nasabah di parameter sebelumnya
+             */
+
             return $query->whereHas('nasabah', function ($query) use ($nama_nasabah) {
-                $query->where('nama_nasabah', $nama_nasabah);
+                $query->where('nama_nasabah', 'LIKE', "%{$nama_nasabah}%");
             });
         });
 

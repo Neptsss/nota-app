@@ -4,62 +4,69 @@ document.addEventListener('DOMContentLoaded', () => {
     const jumlahInput = document.querySelector('input[name="jumlah"]')
     const jumlahRp = document.querySelector('input[name="jumlah_rp"]')
 
-    const detail_container = document.getElementById('detail_container');
-
-
-    mata_uang.addEventListener('change', (e) => {
-        getCurrency(e.target.value)
-    })
-
-    if (rateInput) {
-        rateInput.addEventListener('input', handleInput)
+    if (mata_uang) {
+        mata_uang.addEventListener('change', (e) => {
+            getCurrency(e.target.value)
+        })
     }
-    if (jumlahInput) {
-        jumlahInput.addEventListener('input', handleInput)
-    }
+
+    if (rateInput) rateInput.addEventListener('input', handleInput)
+    if (jumlahInput) jumlahInput.addEventListener('input', handleInput)
+
 
     function convertNumber(value) {
         if (!value) return 0;
-
         const convertValue = value.toString().replace(/\./g, '').replace(',', '.');
-
         return parseFloat(convertValue) || 0;
     }
 
     function handleInput(e) {
-        let rawValue = e.target.value.replace(/[^0-9,.]/g, '');
+        let input = e.target;
 
-        const parts = rawValue.split(',');
-        if (parts.length > 2) rawValue = parts[0] + ',' + parts.slice(1).join('');
+        let rawValue = input.value.replace(/[^0-9,]/g, '');
 
-        e.target.value = rawValue;
+        let parts = rawValue.split(',');
 
-        hitung()
+        if (parts.length > 2) {
+            rawValue = parts[0] + ',' + parts.slice(1).join('');
+            parts = rawValue.split(',');
+        }
+
+        let integerPart = parts[0];
+        integerPart = integerPart.replace(/\./g, '');
+
+        let formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+        if (parts.length > 1) {
+            input.value = formattedInteger + ',' + parts[1];
+        } else {
+            input.value = formattedInteger;
+        }
+
+        hitung();
     }
 
-    function hitung(){
+    function hitung() {
         const jumlah = convertNumber(jumlahInput.value);
-        const rate= convertNumber(rateInput.value);
+        const rate = convertNumber(rateInput.value);
+
         const total = jumlah * rate;
 
-        jumlahRp.value = total.toLocaleString('id-ID',{
+        jumlahRp.value = total.toLocaleString('id-ID', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 2
-        })
-
+        });
     }
 
     async function getCurrency(currency) {
-
         if (currency == "IDR") {
-            rateInput.value = 1
-            hitung()
-            return
+            rateInput.value = "1";
+            hitung();
+            return;
         }
 
-        rateInput.value = "Loading..."
-        jumlahRp.value = ""
-
+        rateInput.value = "Loading...";
+        jumlahRp.value = "";
 
         try {
             const response = await fetch(`https://api.frankfurter.dev/v1/latest?base=${currency}&symbols=IDR`)
@@ -74,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 maximumFractionDigits: 2
             }).format(ratesIDR);
 
-            hitung()
+            hitung();
 
         } catch (err) {
             console.log(err)
@@ -82,40 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             Swal.fire({
                 title: "Error",
-                text: `${currency} tidak ditemukan. Mohon input manual.`,
+                text: `${currency} tidak ditemukan atau gagal memuat. Mohon input manual.`,
                 icon: "error"
             })
         }
     }
-
-
-
-
-    // function hitung(e) {
-    //     if (e.target.id == 'rate') {
-    //         let rawValue = e.target.value.replace(/[^0-9]/g, '');
-    //         if (rawValue !== '') {
-    //             e.target.value = parseFloat(rawValue).toLocaleString('id-ID')
-    //         } else {
-    //             e.target.value = '0'
-    //         }
-    //     }
-    //     if (e.target.id === 'jumlah') {
-    //         let rawValue = e.target.value.replace(/[^0-9]/g, '');
-    //         if (rawValue !== '') {
-    //             e.target.value = parseFloat(rawValue)
-    //         } else {
-    //             e.target.value = '0'
-    //         }
-    //     }
-
-    //     const jumlahInput = parseFloat(document.getElementById('jumlah').value.replace(/\./g, '')) || 0;
-    //     const rateInput = parseFloat(document.getElementById('rate').value.replace(/\./g, '')) || 0;
-    //     console.log(jumlahInput)
-    //     console.log(`rate Input : ${rateInput}`)
-    //     console.log(parseFloat(jumlahInput * rateInput))
-    //     const jumlahRp = document.getElementById('jumlah_rp').value = (jumlahInput * rateInput).toLocaleString('id-ID')
-    // }
-
-
 })
