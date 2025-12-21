@@ -7,13 +7,13 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
     <span>Kembali</span>
 </a>
 <form method='post' class="shadow-xl  w-[95%] p-6 rounded-md mx-auto bg-white" id="notaForm"
-    action="{{route ('transaksi.store')}}">
+    action="{{route ('transaksi.store')}}" enctype="multipart/form-data" >
     @csrf
     <div class="flex flex-wrap justify-between items-center gap-5 ">
         <div class="mb-5">
             <label class="block mb-2 font-semibold">No Transaksi <span class="text-sm text-red-600">*</span></label>
             <input name="no_transaksi"
-                class="border rounded-md px-2 py-1 w-52  @error('no_transaksi') border-red-600 @enderror" type="text"
+                class="border rounded-md px-2 py-1 w-52  @error('no_transaksi') border-red-600  @enderror" type="text"
                 id="no_transaksi" placeholder="Masukan nomor transaksi" value="{{ @old('no_transaksi') }}">
             @error('no_transaksi')
             <span class="block text-red-600 text-sm">{{$message}}</span>
@@ -100,8 +100,8 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
     <div class="flex gap-4 justify-between items-center flex-wrap" id="detail_container">
         <div>
             <label class="block mb-2 font-semibold">Mata Uang <span class="text-sm text-red-600 ">*</span></label>
-            <select class="border rounded-md w-52 px-2 py-1 @error('mata_uang') border-red-600 @enderror" type="text"
-                name="mata_uang">
+            <select class=" rounded-md w-52 px-2 py-1 @error('mata_uang') border border-red-600 @enderror" type="text"
+                name="mata_uang" id="select_mata_uang">
                 <option selected disabled class="text-center">-- Pilih Mata Uang --</option>
                 @foreach ($mata_uang as $item)
                 <option value={{ $item->mata_uang }} {{ @old('mata_uang') == $item->mata_uang ? 'selected' : '' }}>{{
@@ -173,8 +173,8 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
             </button>
         </div>
 
-        <div class="w-full h-64 bg-gray-200 rounded overflow-hidden">
-            <img src="https://picsum.photos/id/15/800/600" class="w-full h-full object-cover" alt="Detail Foto">
+        <div class="w-full h-64 bg-gray-200 rounded overflow-hidden flex items-center justify-center">
+            <img id="modal_image_preview" src="" class="w-full h-full object-contain" alt="Preview Foto">
         </div>
 
         <div class="mt-4 text-right">
@@ -284,8 +284,15 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
 <script src="{{ asset('js/Currency_API.js') }}"></script>
 
 <script>
-    function modal()
-    {
+new TomSelect("#select_mata_uang",{
+create: false,
+sortField: {
+field: "text",
+direction: "asc"
+}
+});
+
+    function modal(){
             const modalCard = document.getElementById('modalCard')
 
             const no_transaksi = document.getElementById('struk_no_transaksi')
@@ -312,61 +319,51 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
 
 
             modalCard.classList.remove('hidden')
-        }
-        function closeModal(){
+     }
+
+    function closeModal(){
           const modalCard = document.getElementById('modalCard')
           modalCard.classList.add('hidden')
         }
 
-        function toggleImageModal(show){
-            const modal = document.getElementById('imageModal')
-            const modalContent = document.getElementById('modalContent')
-            const body = document.body
 
-            if(show){
-            modal.classList.remove('hidden')
-            body.classList.add('overflow-hidden')
+        function fotoId(input) {
+        const btnPreview = document.getElementById('btn_preview');
+        const modalImage = document.getElementById('modal_image_preview');
 
-            setTimeout(() => {
-            modalContent.classList.remove('scale-95', 'opacity-0');
-            modalContent.classList.add('scale-100', 'opacity-100');
-            }, 10);
+        if (input.files && input.files[0]) {
+        const reader = new FileReader();
 
-            }else{
-            modalContent.classList.remove('scale-100', 'opacity-100');
-            modalContent.classList.add('scale-95', 'opacity-0');
-
-            setTimeout(() => {
-            modal.classList.add('hidden')
-            body.classList.remove('overflow-hidden')
-            }, 300);
-            }
+        reader.onload = function(e) {
+        modalImage.src = e.target.result;
+        btnPreview.classList.remove('hidden');
         }
 
-        function fotoId(e){
-         const btnPreview = document.getElementById('btn_preview')
-         console.log(btnPreview)
-         if(e.files && e.files.length > 0){
-         const file = e.files[0];
-         const cekExtensions = /\.(jpg|jpeg|png|)$/i;
-             if (!cekExtensions.test(file.name)) {
-             Swal.fire({
-             title: 'Error!',
-             text: 'Mohon masukan gambar ( jpg, jpeg, png)',
-             icon: 'error',
-             confirmButtonText: 'Tutup'
-             })
+        reader.readAsDataURL(input.files[0]);
+        } else {
+        btnPreview.classList.add('hidden');
+        modalImage.src = "";
+        }
+    }
 
-             input.value = '';
-             btnPreview.classList.add('hidden');
-             return
-         }
-         btnPreview.classList.remove('hidden')
-         }else{
-             btnPreview.classList.add('hidden')
+    function toggleImageModal(show) {
+        const modal = document.getElementById('imageModal');
+        const content = document.getElementById('modalContent');
 
-          }
-     }
+        if (show) {
+        modal.classList.remove('hidden');
+
+        setTimeout(() => {
+        content.classList.remove('opacity-0', 'scale-95');
+        }, 10);
+        } else {
+        content.classList.add('opacity-0', 'scale-95');
+
+        setTimeout(() => {
+        modal.classList.add('hidden');
+        }, 300);
+        }
+    }
 
      function printStruk() {
     const originalContent = document.querySelector('#modalCard .max-w-lg');

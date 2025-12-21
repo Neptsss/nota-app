@@ -15,7 +15,7 @@ class transaksiController extends Controller
         return view('transaksi.transaksi', [
             "title" => "Transaksi",
             "header" => "Daftar Transaksi",
-            "transaksi" => transaksi::all(),
+            "transaksi" => transaksi::filters(request(['no_transaksi', 'tgl_transaksi', 'jenis_transaksi', "nama_nasabah", "jenis_id", "mata_uang"]))->latest()->get(),
             "mata_uang" => mata_uang::all()
         ]);
     }
@@ -63,6 +63,7 @@ class transaksiController extends Controller
             "jumlah" => "required",
             "rate" => "required",
             "jumlah_rp" => "required",
+            "foto_id"=>'required|image|mimes:jpeg,png,jpg|max:4048'
         ],     [
             'no_transaksi.required' => "Nomor transaksi wajib diisi!",
             'no_transaksi.unique' => "Nomor transaksi sudah ada!",
@@ -75,8 +76,21 @@ class transaksiController extends Controller
             'mata_uang.required' => "Mata uang wajib diisi!",
             'jumlah.required' => "Jumlah wajib diisi!",
             'rate.required' => "Rate wajib diisi!",
+            "foto_id.required" => "Foto ID wajib diisi!",
+            "foto_id.image" => "Foto ID harus berupa gambar!",
+            "foto_id.mimes" => "Foto ID harus berupa gambar!",
+            "foto_id.max" => "Foto ID harus kurang dari 4MB!",
         ]);
         if ($validate) {
+            $nama_foto = null;
+
+            if ($request->hasFile('foto_id')) {
+                $file = $request->file('foto_id');
+
+                $nama_foto = time() . '_' . $file->getClientOriginalName();
+
+                $file->move(public_path('img/foto_id'), $nama_foto);
+            }
             $nasabah = nasabah::where('no_hp', $validate['no_hp'])->first();
             if (!$nasabah) {
                 $nasabah = nasabah::create([
@@ -84,6 +98,7 @@ class transaksiController extends Controller
                     "jenis_id" => $validate['jenis_id'],
                     "no_id" => $validate['no_id'],
                     "no_hp" => $validate['no_hp'],
+                    "foto_id" => $nama_foto
                 ]);
             } else {
                 if ($nasabah->nama_nasabah != $validate['nama_nasabah']) {
@@ -134,6 +149,7 @@ class transaksiController extends Controller
         notify()->success('Data transaksi berhasil dihapus');
         return back();
     }
+
     public function update(transaksi $transaksi, request $request)
     {
         $validate = $request->validate([

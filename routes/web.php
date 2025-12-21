@@ -20,6 +20,7 @@ use App\Http\Controllers\AuthController;
 Route::controller(nasabahController::class)->middleware('auth')->group(function () {
     Route::get('/nasabah', 'index')->name('nasabah.index');
     Route::get('/nasabah/{nasabah:id}/detail', 'show')->name('nasabah.show');
+    Route::delete('/nasabah/{nasabah:id}/delete', 'destroy')->name('nasabah.delete');
 });
 
 Route::controller(transaksiController::class)->middleware('auth')->group(function () {

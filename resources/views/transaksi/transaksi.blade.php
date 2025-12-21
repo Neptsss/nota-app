@@ -4,78 +4,89 @@
     class="block w-1/4  text-center px-4 py-2 my-5 rounded-md transition-all duration-500 hover:shadow-md shadow-primary/60 bg-primary text-white hover:scale-105 ease-in-out hover:font-bold font-semibold">Tambah
     Transaksi</a>
 
-
-
 <div class="mt-6 bg-white p-6 rounded-md shadow-md">
     <div class="my-5">
-        <form action="" id="searchForm">
+        <form action="{{ route('transaksi.index') }}" id="searchForm" method="get">
             <div class="flex items-center gap-5">
                 <div class="border rounded-xl w-1/4 flex justify-between items-center px-2 ">
                     <i class="fa-solid fa-magnifying-glass block"></i>
                     <input type="text" class="w-full px-2 py-1  focus:outline-none rounded-md block"
-                        placeholder="Cari No Transaksi" autofocus>
+                        placeholder="Cari No Transaksi" autofocus name="no_transaksi"
+                        value="{{ request('no_transaksi') }}">
                 </div>
 
                 <div
-                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
+                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60" title="Filter ">
                     <i class="fa-solid fa-arrow-down-short-wide" onclick="filter(this)"></i>
                 </div>
-                <div
-                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
+                <span onclick="reset()"
+                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60" title="Reset Filter">
                     <i class="fa-solid fa-arrow-rotate-left"></i>
-                </div>
+                </span>
 
                 <button type="submit"
-                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60">
+                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60" title="Cari ">
                     <i class="fa-solid fa-magnifying-glass block"></i>
                 </button>
+
+               <button
+                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60" title="Export Excel">
+                   <i class="fa-solid fa-file-excel" ></i>
+                </button>
+
             </div>
 
-           <div class="mt-5 bg-white rounded-md shadow-md transition-all duration-500 ease-in-out overflow-hidden max-h-0 opacity-0"
-            id="filter">
-        
-            <div class="p-5">
-                <div class="flex items-center justify-center gap-5">
-                    <div>
-                        <input type="date" class="w-full px-2 py-1 border rounded-md block">
-                    </div>
-                    <div>
-                        <select name="jenis_transaksi" class="px-2 py-1 border rounded md">
-                            <option selected disabled>-- Pilih Jenis Transaksi --</option>
-                            <option value="">Semua Jenis Transaksi</option>
-                            <option value="Beli">Beli</option>
-                            <option value="Jual">Jual</option>
-                        </select>
-                    </div>
-                    <div>
-                        <input type="text" class="w-full px-2 py-1 border rounded-md block" placeholder="Nama Nasabah">
-                    </div>
-                    <div>
-                        <select name="jenis_id" class="px-2 py-1 border rounded md">
-                            <option selected disabled>-- Pilih Jenis ID --</option>
-                            <option value="">Semua Jenis ID</option>
-                            <option value="KTP">KTP</option>
-                            <option value="SIM">SIM</option>
-                            <option value="PASPOR">PASPOR</option>
-                        </select>
-                    </div>
-                    <div>
-                        <select name="mata_uang" class="px-2 py-1 border rounded md">
-                            <option selected disabled>-- Pilih Mata Uang --</option>
-                            <option value="">Semua Mata Uang</option>
-                            @foreach ($mata_uang as $item)
-                            <option value="{{ $item->mata_uang }}">{{ $item->mata_uang }}</option>
-                            @endforeach
-                        </select>
+            <div class="mt-5 z-888 bg-white rounded-md shadow-md transition-all duration-500 ease-in-out overflow-hidden max-h-0 opacity-0"
+                id="filter">
+
+                <div class="p-5">
+                    <div class="flex items-center justify-center gap-5">
+                        <div>
+                            <input type="date" class="w-full px-2 py-1 border rounded-md block" name="tgl_transaksi"
+                                value="{{ request('tgl_transaksi') }}">
+                        </div>
+                        <div>
+                            <select name="jenis_transaksi" class="px-2 py-1 border rounded md">
+                                <option selected disabled>-- Pilih Jenis Transaksi --</option>
+                                
+                                <option value="Beli" {{ request('jenis_transaksi')=="Beli" ? 'selected' : '' }}>Beli
+                                </option>
+                                <option value="Jual" {{ request('jenis_transaksi')=="Jual" ? 'selected' : '' }}>Jual
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <input type="text" class="w-full px-2 py-1 border rounded-md block"
+                                placeholder="Nama Nasabah" name="nama_nasabah" value="{{ request('nama_nasabah') }}">
+                        </div>
+                        <div>
+                            <select name="jenis_id" class="px-2 py-1 border rounded md">
+                                <option selected disabled>-- Pilih Jenis ID --</option>
+                                <option value="KTP" {{ request('jenis_id')=="KTP" ? 'selected' : '' }}>KTP</option>
+                                <option value="SIM" {{ request('jenis_id')=="SIM" ? 'selected' : '' }}>SIM</option>
+                                <option value="PASPOR" {{ request('jenis_id')=="PASPOR" ? 'selected' : '' }}>PASPOR
+                                </option>
+                            </select>
+                        </div>
+                        <div>
+                            <select name="mata_uang" class="px-2 py-1 rounded md" id="select_mata_uang">
+                                <option selected disabled>-- Pilih Mata Uang --</option>
+                              
+                                @foreach ($mata_uang as $item)
+                                <option value="{{ $item->mata_uang }}" {{ request('mata_uang')==$item->mata_uang ?
+                                    'selected' : '' }}>{{ $item->mata_uang }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
         </form>
     </div>
-    <table class="table-responsive w-full bg-white">
+    <table class="table-auto overflow-x-auto w-full bg-white">
         <thead>
             <tr>
                 <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">No </th>
@@ -91,7 +102,7 @@
         </thead>
 
         <tbody>
-            @foreach ($transaksi as $item)
+            @forelse ($transaksi as $item)
             <tr>
                 <td class="border border-slate-200 px-4 py-2 ">{{$loop->iteration}}</td>
                 <td class="border border-slate-200 px-4 py-2 ">{{$item->no_transaksi}}</td>
@@ -111,7 +122,7 @@
                             hover:shadow-md hover:shadow-sky-500/60 transition-all duration-300">
                             <i class="fa-solid fa-eye"></i>
                         </a>
-                        <p onclick="modal(this)" data-no_transaksi="{{ $item->no_transaksi }}"
+                        <span onclick="modal(this)" data-no_transaksi="{{ $item->no_transaksi }}"
                             data-tgl_transaksi="{{ \Carbon\Carbon::parse($item->tgl_transaksi)->locale('id')->translatedFormat('d F Y') }}"
                             data-jenis_transaksi="{{ $item->jenis_transaksi }}"
                             data-nama_nasabah="{{ $item->nasabah->nama_nasabah }}"
@@ -123,10 +134,10 @@
                             data-total="{{ $item->detail_transaksi->sub_total ?? 0 }}"
                             class="my-5 rounded-md px-2 py-1 block bg-green-600 text-white hover:scale-110 hover:shadow-md hover:shadow-green-600/60 transition-all duration-300 cursor-pointer">
                             <i class="fa-solid fa-print"></i>
-                        </p>
+                        </span>
                         <a href="{{route('transaksi.edit',["transaksi"=>$item->id])}}"
                             class=" my-5 rounded-md px-2 py-1 block bg-yellow-500 text-white hover:scale-110
-                            hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300"><i
+                            hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300" ><i
                                 class="fa-solid fa-pen-to-square"></i></a>
                         <form action="{{route('transaksi.delete',["transaksi"=> $item->id])}}" method="POST"
                             class="deleteBtn cursor-pointer">
@@ -140,7 +151,10 @@
 
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <td colspan="9" class="text-center border border-slate-200 px-4 py-4 text-lg font-semibold">Tidak ada data
+                transaksi yang ditemukan</td>
+            @endforelse
         </tbody>
         <tfoot>
             <tr>
@@ -249,18 +263,48 @@
 {{-- end Modal Struk--}}
 
 <script>
-  function filter(e) {
+
+new TomSelect("#select_mata_uang",{
+create: false,
+sortField: {
+field: "text",
+direction: "asc"
+}
+});
+
+    function reset(){
+       let currentURL = new URL(window.location.href);
+       currentURL.search = '';
+       window.location.href = '';
+
+       window.location.href = currentURL.toString()
+
+    }
+
+
+
+    function filter(e) {
     const filterContainer = document.querySelector('#filter');
-
+    
     if (filterContainer.classList.contains('max-h-0')) {
+    
     filterContainer.classList.remove('max-h-0', 'opacity-0');
-    filterContainer.classList.add('max-h-[500px]', 'opacity-100');
-
+    filterContainer.classList.add('max-h-[500px]', 'opacity-100'); 
+    
+    setTimeout(() => {
+    filterContainer.classList.remove('overflow-hidden');
+    filterContainer.classList.add('overflow-visible');
+    }, 500); 
+    
     } else {
+    
+    filterContainer.classList.remove('overflow-visible');
+    filterContainer.classList.add('overflow-hidden');
+    
     filterContainer.classList.remove('max-h-[500px]', 'opacity-100');
     filterContainer.classList.add('max-h-0', 'opacity-0');
     }
-
+    
     if (e.classList.contains('fa-arrow-down-short-wide')) {
     e.classList.remove('fa-arrow-down-short-wide');
     e.classList.add('fa-arrow-up-short-wide');
@@ -268,7 +312,7 @@
     e.classList.remove('fa-arrow-up-short-wide');
     e.classList.add('fa-arrow-down-short-wide');
     }
-}
+    }
 
 const total_harga_transaksi = document.querySelector('#total_harga_transaksi')
 const harga_transaksi = document.querySelectorAll('.harga_transaksi')
@@ -307,13 +351,18 @@ total_harga_transaksi.innerText = `Rp ${total.toLocaleString('id-ID')}`
 
     mata_uang.innerText = element.dataset.mata_uang
 
-    const jumlahVal = parseFloat(element.dataset.jumlah)
-    const rateVal = parseFloat(element.dataset.rate)
-    const totalVal = parseFloat(element.dataset.total)
+    const formatUang = {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+    };
 
-    jumlah.innerText = jumlahVal.toLocaleString('id-ID')
-    rate.innerText = rateVal.toLocaleString('id-ID')
-    total.innerText = totalVal.toLocaleString('id-ID')
+    const jumlahVal = parseFloat(element.dataset.jumlah) || 0;
+    const rateVal = parseFloat(element.dataset.rate) || 0;
+    const totalVal = parseFloat(element.dataset.total) || 0;
+
+    jumlah.innerText = jumlahVal.toLocaleString('id-ID', formatUang);
+    rate.innerText = rateVal.toLocaleString('id-ID', formatUang);
+    total.innerText = totalVal.toLocaleString('id-ID', formatUang);
 
     modalCard.classList.remove('hidden')
     }
@@ -325,7 +374,6 @@ total_harga_transaksi.innerText = `Rp ${total.toLocaleString('id-ID')}`
 
     function printStruk() {
     const originalContent = document.querySelector('#modalCard .max-w-lg');
-    console.log(originalContent);
     const printContent = originalContent.cloneNode(true);
     const actionButtons = printContent.querySelector('.rounded-b-xl');
 
