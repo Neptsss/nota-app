@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Str;
 
 class transaksi extends Model
 {
@@ -20,9 +21,9 @@ class transaksi extends Model
         return $this->belongsTo(nasabah::class);
     }
 
-    public function detail_transaksi(): BelongsTo
+    public function detail_transaksi(): HasOne
     {
-        return $this->belongsTo(detail_transaksi::class, "no_transaksi", "no_transaksi");
+        return $this->hasOne(detail_transaksi::class, 'transaksi_id', 'id');
     }
 
     /*
@@ -44,7 +45,6 @@ class transaksi extends Model
         /*
          ? when()
          * query apakah ada filter dengan kunci no_transaksi ? jika tidak (false) maka abaikan, namun jika ada program akan menjalankan function.
-
         */
         $query->when($filter['no_transaksi'] ?? false, function ($query, $no_transaksi) {
 
@@ -95,6 +95,16 @@ class transaksi extends Model
             return $query->whereHas('detail_transaksi', function ($query) use ($mata_uang) {
                 $query->where('mata_uang', $mata_uang);
             });
+        });
+    }
+
+    static function boot(){
+        parent::boot();
+
+        static::creating(function($model){
+            if(empty($model->token)){
+                $model->token = Str::random(10);
+            }
         });
     }
 }

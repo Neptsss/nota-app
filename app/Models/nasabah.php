@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class nasabah extends Model
 {
     use HasFactory;
     protected $table = 'nasabah';
     protected $guarded = ['id'];
-    // protected $with = ['transaksi'];
 
     public function transaksi(): HasMany
     {
@@ -35,5 +35,18 @@ class nasabah extends Model
         $query->when($filter['jenis_id'] ?? false, function ($query, $jenis_id) {
             return $query->where('jenis_id', $jenis_id);
         });
+    }
+
+    public static function boot(){
+        parent::boot();
+        static::creating(function($model){
+            if(empty($model->kode_nasabah)){
+                $model->kode_nasabah = "NSB-".strtoupper(Str::random(5));
+            }
+        });
+    }
+
+    public function getRouteKeyName(){
+        return "kode_nasabah";
     }
 }

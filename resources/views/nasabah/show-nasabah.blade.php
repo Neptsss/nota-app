@@ -125,7 +125,7 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
 </div>
 
 {{-- Modal Struk --}}
-<div id="modalCard" class="fixed inset-0 z-50 hidden transition-opacity duration-300">
+<div id="modalCard" class="fixed inset-0 z-889 hidden transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
 
     <div class="relative flex min-h-screen items-center justify-center p-4">

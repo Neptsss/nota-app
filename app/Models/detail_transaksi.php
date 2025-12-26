@@ -13,7 +13,6 @@ class detail_transaksi extends Model
     use HasFactory;
     protected $table = "detail_transaksi";
     protected $guarded = ['id'];
-    protected $with = ['transaksi'];
 
     protected static function newFactory()
     {
@@ -26,11 +25,7 @@ class detail_transaksi extends Model
     // }
 
     public function transaksi():BelongsTo {
-        return $this->belongsTo(transaksi::class, "no_transaksi");
+        return $this->belongsTo(transaksi::class, 'transaksi_id');
     }
 
-    public function getRouteKeyName()
-    {
-        return "no_transaksi";
-    }
 }

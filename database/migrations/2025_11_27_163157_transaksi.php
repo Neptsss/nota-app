@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create("transaksi", function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string('no_transaksi')->unique();
+            $table->string('token')->unique();
             $table->date('tgl_transaksi');
             $table->unsignedBigInteger('nasabah_id');
             $table->foreign('nasabah_id')->references('id')->on('nasabah');

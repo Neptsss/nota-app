@@ -7,7 +7,7 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
     <span>Kembali</span>
 </a>
 <form method='post' class="shadow-xl  w-[95%] p-6 rounded-md mx-auto bg-white " id="notaForm"
-    action="{{route ('transaksi.update', ["transaksi"=> $transaksi->id])}}">
+    action="{{route ('transaksi.update', ["transaksi"=> $transaksi->token])}}" enctype="multipart/form-data"">
     @method('put')
     @csrf
     <div class="flex flex-wrap justify-between items-center gap-5 ">
@@ -71,11 +71,11 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
                 name="jenis_id">
                 <option selected disabled class="text-center">-- Pilih Jenis ID --</option>
                 {{-- transaksi -> nasabah -> jenis_id --}}
-                <option value="KTP" {{ @old('jenis_id')=='KTP' || $transaksi->jenis_id == "KTP" ? 'selected' : '' }}>KTP
+                <option value="KTP" {{ @old('jenis_id')=='KTP' || $transaksi->nasabah->jenis_id == "KTP" ? 'selected' : '' }}>KTP
                 </option>
-                <option value="SIM" {{ @old('jenis_ID')=='SIM' || $transaksi->jenis_id == "SIM" ? 'selected' : '' }}>SIM
+                <option value="SIM" {{ @old('jenis_ID')=='SIM' || $transaksi->nasabah->jenis_id == "SIM" ? 'selected' : '' }}>SIM
                 </option>
-                <option value="PASPOR" {{ @old('jenis_ID')=='PASPOR' || $transaksi->jenis_id == "PASPOR" ? 'selected' :
+                <option value="PASPOR" {{ @old('jenis_ID')=='PASPOR' || $transaksi->nasabah->jenis_id == "PASPOR" ? 'selected' :
                     '' }}>PASPOR</option>
             </select>
             @error('jenis_id')
@@ -174,7 +174,7 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
 
 {{-- Modal Image --}}
 <div id="imageModal"
-    class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex justify-center items-center transition-opacity duration-300">
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm z-889 hidden flex justify-center items-center transition-opacity duration-300">
 
     <div class="bg-white p-6 rounded-lg shadow-2xl max-w-lg w-full mx-4 transform transition-all scale-95 opacity-0"
         id="modalContent" onclick="event.stopPropagation()">
@@ -186,8 +186,8 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
             </button>
         </div>
 
-        <div class="w-full h-64 bg-gray-200 rounded overflow-hidden">
-            <img src="https://picsum.photos/id/15/800/600" class="w-full h-full object-cover" alt="Detail Foto">
+        <div class="w-full h-64 bg-gray-200 rounded overflow-hidden flex items-center justify-center">
+            <img id="modal_image_preview" src="" class="w-full h-full object-contain" alt="Preview Foto">
         </div>
 
         <div class="mt-4 text-right">
@@ -376,11 +376,49 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
          btnPreview.classList.remove('hidden')
          }else{
              btnPreview.classList.add('hidden')
-
           }
      }
+     
+     function fotoId(input) {
+    const btnPreview = document.getElementById('btn_preview');
+    const modalImage = document.getElementById('modal_image_preview');
+    
+    if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+    modalImage.src = e.target.result;
+    btnPreview.classList.remove('hidden');
+    }
+    
+    reader.readAsDataURL(input.files[0]);
+    } else {
+    btnPreview.classList.add('hidden');
+    modalImage.src = "";
+    }
+    }
+    
+    function toggleImageModal(show) {
+    const modal = document.getElementById('imageModal');
+    const content = document.getElementById('modalContent');
+    
+    if (show) {
+    modal.classList.remove('hidden');
+    
+    setTimeout(() => {
+    content.classList.remove('opacity-0', 'scale-95');
+    }, 10);
+    } else {
+    content.classList.add('opacity-0', 'scale-95');
+    
+    setTimeout(() => {
+    modal.classList.add('hidden');
+    }, 300);
+    }
+    }
 
-    function printStruk() {
+   
+     function printStruk() {
     const originalContent = document.querySelector('#modalCard .max-w-lg');
     const printContent = originalContent.cloneNode(true);
     const actionButtons = printContent.querySelector('.rounded-b-xl');

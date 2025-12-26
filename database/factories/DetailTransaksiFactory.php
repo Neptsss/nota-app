@@ -16,13 +16,18 @@ class DetailTransaksiFactory extends Factory
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed>
+     * @return array<string, mixed>    public function up(): void
+    {
+        Schema::create("detail_transaksi", function (Blueprint $table) {
+            $table->id()->autoIncrement();
+            $table->string("no_transaksi");
+            $table->foreign("no_transaksi")->references("no_transaksi")->on("transaksi")->onDelete('cascade');
      */
     public function definition(): array
     {
         return [
-            "no_transaksi" => transaksi::factory(),
-            "mata_uang" => random_int(1, 4),
+            "transaksi_id" => transaksi::factory(),
+            "mata_uang" => "USD",
             "jumlah" => fake()->randomFloat(2, 10, 1000),
             "rate" => fake()->randomFloat(2, 1000, 15000),
             "sub_total" => fake()->randomFloat(2, 10000, 1000000)

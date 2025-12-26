@@ -8,6 +8,7 @@ use App\Models\mata_uang;
 use App\Models\nasabah;
 use App\Models\transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 
 class transaksiController extends Controller
@@ -17,7 +18,7 @@ class transaksiController extends Controller
         return view('transaksi.transaksi', [
             "title" => "Transaksi",
             "header" => "Daftar Transaksi",
-            "transaksi" => transaksi::filters(request(['no_transaksi', 'tgl_transaksi', 'jenis_transaksi', "nama_nasabah", "jenis_id", "mata_uang"]))->latest()->get(),
+            "transaksi" => transaksi::with(['nasabah', 'detail_transaksi'])->filters(request(['no_transaksi', 'tgl_transaksi', 'jenis_transaksi', "nama_nasabah", "jenis_id", "mata_uang"]))->latest()->paginate(5),
             "mata_uang" => mata_uang::all()
         ]);
     }
@@ -124,7 +125,7 @@ class transaksiController extends Controller
             ]);
 
             detail_transaksi::create([
-                "no_transaksi" => $transaksi->no_transaksi,
+                "transaksi_id" => $transaksi->id,
                 "mata_uang" => $validate['mata_uang'],
                 "jumlah" => $jumlah,
                 "rate" => $rate,
@@ -179,15 +180,28 @@ class transaksiController extends Controller
             'rate.required' => "Rate wajib diisi!",
         ]);
         $nasabah = nasabah::where("no_hp", $validate['no_hp'])->where("id", !$transaksi->nasabah->id)->first();
+        
         if ($nasabah) {
             notify()->warning('Nomor telepon sudah terdaftar');
             return back();
         }
+        
+        $nama_foto = null;
+        if($request->hasFile('foto_id')){
+            if(File::exists(public_path('img/foto_id/' . $transaksi->nasabah->foto_id))){
+                File::delete(public_path('img/foto_id/' . $transaksi->nasabah->foto_id));
+            }
+            $file = $request->file('foto_id');
+            $nama_foto = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('img/foto_id'), $nama_foto);
+        }
+
         $transaksi->nasabah->update([
             "nama_nasabah" => $validate["nama_nasabah"],
             "no_hp" => $validate["no_hp"],
             "jenis_id" => $validate["jenis_id"],
-            "no_id" => $validate["no_id"]
+            "no_id" => $validate["no_id"],
+            "foto_id" => $nama_foto
         ]);
 
         $sub_total = $this->formatHarga($validate['jumlah_rp']);

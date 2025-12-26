@@ -27,13 +27,15 @@ class DatabaseSeeder extends Seeder
             "username" => "Admin",
             "password" => "passaja123"
         ]);
+       
         $this->call([
             MataUangSeeder::class,
             NasabahSeeder::class,
-            TransaksiSeeder::class,
-            DetailTransaksiSeeder::class
+            // TransaksiSeeder::class,
+            // DetailTransaksiSeeder::class
         ]);
-        // transaksi::factory(5)->create();
-        // detail_transaksi::factory(5)->create();
+        transaksi::factory(5)
+            ->has(detail_transaksi::factory(), 'detail_transaksi') // <--- Relasi otomatis
+            ->create();
     }
 }

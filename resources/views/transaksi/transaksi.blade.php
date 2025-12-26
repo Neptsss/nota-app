@@ -30,11 +30,11 @@
                     title="Cari ">
                     <i class="fa-solid fa-magnifying-glass block"></i>
                 </button>
-                    <a href="{{ route('transaksi.export', request()->query()) }}"
-                        class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60"
-                        title="Export Excel">
-                        <i class="fa-solid fa-file-excel"></i>
-                    </a>
+                <a href="{{ route('transaksi.export', request()->query()) }}"
+                    class="px-2 py-1 border border-primary rounded-md cursor-pointer hover:bg-primary hover:scale-110 transition-all hover:text-white ease-in-out duration-500  hover:shadow-md hover:shadow-primary/60"
+                    title="Export Excel">
+                    <i class="fa-solid fa-file-excel"></i>
+                </a>
 
             </div>
 
@@ -88,6 +88,9 @@
 
         </form>
     </div>
+    <div class="my-5">
+        {{ $transaksi->links() }}
+    </div>
     <table class="table-auto overflow-x-auto w-full bg-white">
         <thead>
             <tr>
@@ -105,6 +108,7 @@
 
         <tbody>
             @forelse ($transaksi as $item)
+            {{-- @dd($item->detail_transaksi->mata_uang) --}}
             <tr>
                 <td class="border border-slate-200 px-4 py-2 ">{{$loop->iteration}}</td>
                 <td class="border border-slate-200 px-4 py-2 ">{{$item->no_transaksi}}</td>
@@ -113,14 +117,13 @@
                 <td class="border border-slate-200 px-4 py-2 ">{{$item->jenis_transaksi}}</td>
                 <td class="border border-slate-200 px-4 py-2 ">{{$item->nasabah->nama_nasabah}}</td>
                 <td class="border border-slate-200 px-4 py-2 ">{{$item->nasabah->jenis_id}}</td>
-                <td class="border border-slate-200 px-4 py-2 ">{{$item->detail_transaksi->mata_uang }} </td>
+                <td class="border border-slate-200 px-4 py-2 ">{{$item->detail_transaksi->mata_uang ?? '-'}} </td>
                 <td class="border border-slate-200 px-4 py-2 harga_transaksi" data-harga_transaksi={{ $item->
                     detail_transaksi->sub_total
                     }}>{{number_format($item->detail_transaksi->sub_total, 2, ',', '.')}}</td>
                 <td class="border border-slate-200 px-4 py-2">
                     <div class="flex justify-center gap-2">
-                        <a href="{{ route('transaksi.show',['transaksi'=>$item->id])}}"
-                            class=" my-5 rounded-md px-2 py-1 block bg-sky-500 text-white hover:scale-110
+                        <a href="{{ route('transaksi.show',['transaksi'=>$item->token])}}" class=" my-5 rounded-md px-2 py-1 block bg-sky-500 text-white hover:scale-110
                             hover:shadow-md hover:shadow-sky-500/60 transition-all duration-300">
                             <i class="fa-solid fa-eye"></i>
                         </a>
@@ -137,11 +140,10 @@
                             class="my-5 rounded-md px-2 py-1 block bg-green-600 text-white hover:scale-110 hover:shadow-md hover:shadow-green-600/60 transition-all duration-300 cursor-pointer">
                             <i class="fa-solid fa-print"></i>
                         </span>
-                        <a href="{{route('transaksi.edit',['transaksi'=>$item->id])}}"
-                            class=" my-5 rounded-md px-2 py-1 block bg-yellow-500 text-white hover:scale-110
-                            hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300" ><i
+                        <a href="{{route('transaksi.edit',['transaksi'=>$item->token])}}" class=" my-5 rounded-md px-2 py-1 block bg-yellow-500 text-white hover:scale-110
+                            hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300"><i
                                 class="fa-solid fa-pen-to-square"></i></a>
-                        <form action="{{route('transaksi.delete',['transaksi'=> $item->id])}}" method="POST"
+                        <form action="{{route('transaksi.delete',['transaksi'=> $item->token])}}" method="POST"
                             class="deleteBtn cursor-pointer">
                             @method('DELETE')
                             @csrf
@@ -173,7 +175,7 @@
 </div>
 
 {{-- Modal Struk --}}
-<div id="modalCard" class="fixed inset-0 z-50 hidden transition-opacity duration-300">
+<div id="modalCard" class="fixed inset-0 z-889 hidden transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
 
     <div class="relative flex min-h-screen items-center justify-center p-4">
