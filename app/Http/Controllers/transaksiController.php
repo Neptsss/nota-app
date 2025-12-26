@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TransaksiExport;
 use App\Models\detail_transaksi;
 use App\Models\mata_uang;
 use App\Models\nasabah;
 use App\Models\transaksi;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class transaksiController extends Controller
 {
@@ -211,5 +213,10 @@ class transaksiController extends Controller
     {
         $formatHarga = str_replace('.', '', $value);
         return str_replace(',', '.', $formatHarga);
+    }
+
+    public function export(Request $request){
+        // dd("hwllo");
+        return Excel::download(new TransaksiExport($request->all()), 'daftar-transaksi.xlsx');
     }
 }

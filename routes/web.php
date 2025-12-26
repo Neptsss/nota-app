@@ -39,6 +39,7 @@ Route::controller(transaksiController::class)->middleware('auth')->group(functio
 
     //Route::delete('/transaksi/{id}/delete','delete')->name('transaksi.delete');
     Route::delete('/transaksi/{transaksi:id}/delete', 'delete')->name('transaksi.delete');
+    Route::get('transaksi/export/','export')->name('transaksi.export');
 });
 
 Route::controller(AuthController::class)->group(function () {

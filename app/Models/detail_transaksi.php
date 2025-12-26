@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\DetailTransaksiFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,11 @@ class detail_transaksi extends Model
     protected $table = "detail_transaksi";
     protected $guarded = ['id'];
     protected $with = ['transaksi'];
+
+    protected static function newFactory()
+    {
+        return DetailTransaksiFactory::new();
+    }
 
     // public function mata_uang():BelongsTo {
     //     return $this->belongsTo(mata_uang::class, "id_mata_uang");
