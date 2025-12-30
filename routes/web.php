@@ -17,28 +17,36 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+Route::get('dashboard', function () {
+    return view('dashboard', [
+        "title" => "Dashboad",
+        "header" => "Dashboard"
+    ]);
+})->name('dashboard');
+
 Route::controller(nasabahController::class)->middleware('auth')->group(function () {
     Route::get('/nasabah', 'index')->name('nasabah.index');
-    Route::get('/nasabah/{nasabah:id}/detail', 'show')->name('nasabah.show');
-    Route::delete('/nasabah/{nasabah:id}/delete', 'destroy')->name('nasabah.delete');
+    Route::get('/nasabah/{nasabah:kode_nasabah}/detail', 'show')->name('nasabah.show');
+    Route::delete('/nasabah/{nasabah:kode_nasabah}/delete', 'destroy')->name('nasabah.delete');
 });
 
 Route::controller(transaksiController::class)->middleware('auth')->group(function () {
 
     Route::get("/transaksi", 'index')->name('transaksi.index');
-    Route::get("/transaksi/{transaksi:id}/detail", 'show')->name('transaksi.show');
+    Route::get("/transaksi/{transaksi:token}/detail", 'show')->name('transaksi.show');
 
     // create
     Route::get('/transaksi/create', 'create')->name('transaksi.create');
     Route::post('/transaksi/store', 'store')->name('transaksi.store');
 
     // Update
-    Route::get('/transaksi/{transaksi:id}/edit', 'edit')->name('transaksi.edit');
-    Route::put('/transaksi/{transaksi:id}/edit', 'update')->name('transaksi.update');
+    Route::get('/transaksi/{transaksi:token}/edit', 'edit')->name('transaksi.edit');
+    Route::put('/transaksi/{transaksi:token}/edit', 'update')->name('transaksi.update');
     // Route::put('/transaksi/{transaksi:slug}', 'update')->name('transaksi.update');
 
     //Route::delete('/transaksi/{id}/delete','delete')->name('transaksi.delete');
-    Route::delete('/transaksi/{transaksi:id}/delete', 'delete')->name('transaksi.delete');
+    Route::delete('/transaksi/{transaksi:token}/delete', 'delete')->name('transaksi.delete');
+    Route::get('transaksi/export/', 'export')->name('transaksi.export');
 });
 
 Route::controller(AuthController::class)->group(function () {

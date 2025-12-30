@@ -80,8 +80,10 @@
                     <td class=" border border-slate-200 px-4 py-2 whitespace-nowrap">{{ $item->jenis_id }}</td>
                     <td class=" border border-slate-200 px-4 py-2 whitespace-nowrap">{{ $item->no_id }}</td>
                     <td class=" border border-slate-200 px-4 py-2 whitespace-nowrap">
-                        <div class="relative group cursor-pointer w-32  mx-auto" onclick="toggleModal(true , '{{ asset('img/foto_id/'.$item->foto_id) }}')"">
-                         <img src="{{ asset('img/foto_id/'.$item->foto_id) }}" alt="{{ "Foto ID ".$item->nama_nasabah }}" class=" rounded-md group-hover:brightness-50 foto">
+                        <div class="relative group cursor-pointer w-32  mx-auto"
+                            onclick="toggleModal(true , '{{ asset('img/foto_id/'.$item->foto_id) }}')"">
+                         <img src=" {{ asset('img/foto_id/'.$item->foto_id) }}" alt="{{ "Foto ID ".$item->nama_nasabah
+                            }}" class=" rounded-md group-hover:brightness-50 foto">
                             <i
                                 class="fa-solid fa-eye absolute text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:opacity-100 opacity-0"></i>
                         </div>
@@ -89,11 +91,12 @@
                     </td>
                     <td class=" border border-slate-200 px-4 py-2 ">
                         <div class="flex items-center gap-5 justify-center">
-                            <a href="{{ route('nasabah.show',['nasabah'=>$item->id]) }}"
-                                class=" my-5 rounded-md px-2 py-1  gap-4 bg-green-500 text-white hover:scale-110 hover:shadow-md hover:shadow-green-500/60 transition-all duration-300 hover:font-semibold" title="Detail Transaksi">
+                            <a href="{{ route('nasabah.show',['nasabah'=>$item->kode_nasabah]) }}"
+                                class=" my-5 rounded-md px-2 py-1  gap-4 bg-green-500 text-white hover:scale-110 hover:shadow-md hover:shadow-green-500/60 transition-all duration-300 hover:font-semibold"
+                                title="Detail Transaksi">
                                 <i class="fa-solid fa-money-check-dollar"></i>
                             </a>
-                            <form action="{{route('nasabah.delete',['nasabah'=> $item->id])}}" method="POST"
+                            <form action="{{route('nasabah.delete',['nasabah'=> $item->kode_nasabah])}}" method="POST"
                                 class="deleteBtnNasabah cursor-pointer" title="Hapus Nasabah">
                                 @method('DELETE')
                                 @csrf

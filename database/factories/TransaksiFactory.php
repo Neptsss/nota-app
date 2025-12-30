@@ -17,7 +17,10 @@ class TransaksiFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            "no_transaksi" => fake()->unique()->randomDigit(1),
+            "tgl_transaksi" => fake()->date(),
+            "nasabah_id" => random_int(1, 2),
+            "jenis_transaksi" => fake()->randomElement(['Beli', 'Jual'])
         ];
     }
 }

@@ -73,7 +73,7 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
     </table>
 
     <div id="imageModal"
-        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex justify-center items-center transition-opacity duration-300">
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-889 hidden flex justify-center items-center transition-opacity duration-300">
 
         <div class="bg-white p-6 rounded-lg shadow-2xl max-w-lg w-full mx-4 transform transition-all scale-95 opacity-0"
             id="modalContent" onclick="event.stopPropagation()">

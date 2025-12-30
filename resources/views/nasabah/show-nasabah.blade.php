@@ -44,7 +44,7 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
                         <div>
                             <select name="jenis_transaksi" class="px-2 py-1 border rounded md">
                                 <option selected disabled>-- Pilih Jenis Transaksi --</option>
-                                
+
                                 <option value="Beli" {{ request('jenis_transaksi')=="Beli" ? 'selected' : '' }}>Beli
                                 </option>
                                 <option value="Jual" {{ request('jenis_transaksi')=="Jual" ? 'selected' : '' }}>Jual
@@ -52,16 +52,16 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
                             </select>
                         </div>
 
-                       <div>
-                        <select name="mata_uang" class="px-2 py-1 rounded md" id="select_mata_uang">
-                            <option selected disabled>-- Pilih Mata Uang --</option>
-                            
-                            @foreach ($mata_uang as $item)
-                            <option value="{{ $item->mata_uang }}" {{ request('mata_uang')==$item->mata_uang ?
-                                'selected' : '' }}>{{ $item->mata_uang }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <div>
+                            <select name="mata_uang" class="px-2 py-1 rounded md" id="select_mata_uang">
+                                <option selected disabled>-- Pilih Mata Uang --</option>
+
+                                @foreach ($mata_uang as $item)
+                                <option value="{{ $item->mata_uang }}" {{ request('mata_uang')==$item->mata_uang ?
+                                    'selected' : '' }}>{{ $item->mata_uang }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,7 +108,8 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
                         data-jumlah="{{ $item->detail_transaksi->jumlah ?? 0 }}"
                         data-rate="{{ $item->detail_transaksi->rate ?? 1 }}"
                         data-total="{{ $item->detail_transaksi->sub_total ?? 0 }}"
-                        class="my-5 rounded-md p-2 flex items-center justify-center bg-green-600 text-white hover:scale-110 hover:shadow-md hover:shadow-green-600/60 transition-all duration-300 cursor-pointer" title="Cetak Struk">
+                        class="my-5 rounded-md p-2 flex items-center justify-center bg-green-600 text-white hover:scale-110 hover:shadow-md hover:shadow-green-600/60 transition-all duration-300 cursor-pointer"
+                        title="Cetak Struk">
                         <i class="fa-solid fa-print "></i>
                     </span>
                 </td>
@@ -125,7 +126,7 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
 </div>
 
 {{-- Modal Struk --}}
-<div id="modalCard" class="fixed inset-0 z-50 hidden transition-opacity duration-300">
+<div id="modalCard" class="fixed inset-0 z-889 hidden transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
 
     <div class="relative flex min-h-screen items-center justify-center p-4">
@@ -217,8 +218,7 @@ duration-300 hover:shadow-md shadow-primary/60 hover:bg-primary hover:text-white
 {{-- end Modal Struk--}}
 
 <script>
-
-new TomSelect("#select_mata_uang",{
+    new TomSelect("#select_mata_uang",{
 create: false,
 sortField: {
 field: "text",

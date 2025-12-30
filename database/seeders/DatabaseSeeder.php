@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\detail_transaksi;
 use App\Models\User;
 use App\Models\nasabah;
+use App\Models\transaksi;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,14 +24,18 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         User::create([
-            "username"=>"Admin",
-            "password"=>"passaja123"
+            "username" => "Admin",
+            "password" => "passaja123"
         ]);
+
         $this->call([
             MataUangSeeder::class,
             NasabahSeeder::class,
-            TransaksiSeeder::class,
-            DetailTransaksiSeeder::class
+            // TransaksiSeeder::class,
+            // DetailTransaksiSeeder::class
         ]);
+        transaksi::factory(5)
+            ->has(detail_transaksi::factory(), 'detail_transaksi') // <--- Relasi otomatis
+            ->create();
     }
 }

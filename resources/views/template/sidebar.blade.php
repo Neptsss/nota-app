@@ -12,6 +12,20 @@
 
         <ul class="flex flex-col gap-2">
             <li>
+                <a href="{{ route('dashboard') }}"
+                    class="relative flex items-center h-12 px-3 rounded-xl transition-all duration-200 hover:bg-white hover:text-primary {{ request()->routeIs('dashboard') ? 'bg-white text-primary' : 'text-gray-300' }}">
+
+                    <div class="w-8 flex justify-center items-center">
+                        <i class="fa-solid fa-house"></i>
+                    </div>
+
+                    <span
+                        class="ml-3 font-medium whitespace-nowrap hidden overflow-hidden group-hover:block group-hover:w-auto opacity-100 group-hover:opacity-100 transition-all duration-300 delay-75">
+                        Dashboard
+                    </span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('transaksi.index') }}"
                     class="relative flex items-center h-12 px-3 rounded-xl transition-all duration-200 hover:bg-white hover:text-primary {{ request()->routeIs('transaksi.*') ? 'bg-white text-primary' : 'text-gray-300' }}">
 

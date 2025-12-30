@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create("nasabah",function(Blueprint $table){
+        Schema::create("nasabah", function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string("nama_nasabah");
-            $table->enum("jenis_id",['KTP', 'SIM', 'PASPOR']);
+            $table->string('kode_nasabah')->unique();
+            $table->enum("jenis_id", ['KTP', 'SIM', 'PASPOR']);
             $table->string("no_id");
             $table->string("no_hp");
             $table->string('foto_id')->nullable();
             $table->timestamps();
-        } );
+        });
     }
 
     /**

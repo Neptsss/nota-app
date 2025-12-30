@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create("detail_transaksi", function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string("no_transaksi");
-            $table->foreign("no_transaksi")->references("no_transaksi")->on("transaksi")->onDelete('cascade');
-            // $table->unsignedBigInteger("id_mata_uang");
-            // $table->foreign("id_mata_uang")->references("id")->on("mata_uang")->onDelete('cascade');
+            $table->foreignId('transaksi_id')->constrained('transaksi')->onDelete('cascade');
             $table->string('mata_uang');
             $table->decimal("jumlah", 19, 2);
             $table->decimal("rate", 19, 2);
