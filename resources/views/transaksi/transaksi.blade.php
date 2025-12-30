@@ -91,87 +91,78 @@
     <div class="my-5">
         {{ $transaksi->links() }}
     </div>
-    <table class="table-auto overflow-x-auto w-full bg-white">
-        <thead>
-            <tr>
-                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">No </th>
-                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">No Transaksi</th>
-                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Tanggal Transaksi</th>
-                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Jenis Transaksi</th>
-                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Nama Nasabah</th>
-                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Jenis ID</th>
-                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Mata Uang</th>
-                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Total (Rp)</th>
-                <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Action</th>
-            </tr>
-        </thead>
+    <div class="overflow-x-auto">
+        <table class="table-auto overflow-x-auto w-full bg-white">
+            <thead>
+                <tr>
+                    <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">No </th>
+                    <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">No Transaksi</th>
+                    <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Tanggal Transaksi</th>
+                    <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Jenis Transaksi</th>
+                    <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Nama Nasabah</th>
+                    <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Jenis ID</th>
+                    <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Mata Uang</th>
+                    <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Total (Rp)</th>
+                    <th class="border border-slate-200 px-4 py-2 bg-primary text-white ">Action</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            @forelse ($transaksi as $item)
-            {{-- @dd($item->detail_transaksi->mata_uang) --}}
-            <tr>
-                <td class="border border-slate-200 px-4 py-2 ">{{$loop->iteration}}</td>
-                <td class="border border-slate-200 px-4 py-2 ">{{$item->no_transaksi}}</td>
-                <td class="border border-slate-200 px-4 py-2 ">
-                    {{\Carbon\Carbon::parse($item->tgl_transaksi)->locale('id')->translatedFormat('d F Y')}}</td>
-                <td class="border border-slate-200 px-4 py-2 ">{{$item->jenis_transaksi}}</td>
-                <td class="border border-slate-200 px-4 py-2 ">{{$item->nasabah->nama_nasabah}}</td>
-                <td class="border border-slate-200 px-4 py-2 ">{{$item->nasabah->jenis_id}}</td>
-                <td class="border border-slate-200 px-4 py-2 ">{{$item->detail_transaksi->mata_uang ?? '-'}} </td>
-                <td class="border border-slate-200 px-4 py-2 harga_transaksi" data-harga_transaksi={{ $item->
-                    detail_transaksi->sub_total
-                    }}>{{number_format($item->detail_transaksi->sub_total, 2, ',', '.')}}</td>
-                <td class="border border-slate-200 px-4 py-2">
-                    <div class="flex justify-center gap-2">
-                        <a href="{{ route('transaksi.show',['transaksi'=>$item->token])}}" class=" my-5 rounded-md px-2 py-1 block bg-sky-500 text-white hover:scale-110
-                            hover:shadow-md hover:shadow-sky-500/60 transition-all duration-300">
-                            <i class="fa-solid fa-eye"></i>
-                        </a>
-                        <span onclick="modal(this)" data-no_transaksi="{{ $item->no_transaksi }}"
-                            data-tgl_transaksi="{{ \Carbon\Carbon::parse($item->tgl_transaksi)->locale('id')->translatedFormat('d F Y') }}"
-                            data-jenis_transaksi="{{ $item->jenis_transaksi }}"
-                            data-nama_nasabah="{{ $item->nasabah->nama_nasabah }}"
-                            data-no_hp="{{ $item->nasabah->no_hp ?? '-' }}"
-                            data-identitas="{{ $item->nasabah->jenis_id }} - {{ $item->nasabah->no_id ?? '-' }}"
-                            data-mata_uang="{{ $item->detail_transaksi->mata_uang ?? 'IDR' }}"
-                            data-jumlah="{{ $item->detail_transaksi->jumlah ?? 0 }}"
-                            data-rate="{{ $item->detail_transaksi->rate ?? 1 }}"
-                            data-total="{{ $item->detail_transaksi->sub_total ?? 0 }}"
-                            class="my-5 rounded-md px-2 py-1 block bg-green-600 text-white hover:scale-110 hover:shadow-md hover:shadow-green-600/60 transition-all duration-300 cursor-pointer">
-                            <i class="fa-solid fa-print"></i>
-                        </span>
-                        <a href="{{route('transaksi.edit',['transaksi'=>$item->token])}}" class=" my-5 rounded-md px-2 py-1 block bg-yellow-500 text-white hover:scale-110
-                            hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300"><i
-                                class="fa-solid fa-pen-to-square"></i></a>
-                        <form action="{{route('transaksi.delete',['transaksi'=> $item->token])}}" method="POST"
-                            class="deleteBtn cursor-pointer">
-                            @method('DELETE')
-                            @csrf
-                            <button type="submit"
-                                class="cursor-pointer my-5 rounded-md px-2 py-1 block bg-red-600 text-white hover:scale-110 hover:shadow-md hover:shadow-red-600/60 transition-all duration-300"><i
-                                    class="fa-solid fa-trash-can"></i></button>
-                        </form>
-                    </div>
+            <tbody>
+                @forelse ($transaksi as $item)
+                {{-- @dd($item->detail_transaksi->mata_uang) --}}
+                <tr>
+                    <td class="border border-slate-200 px-4 py-2 ">{{$loop->iteration}}</td>
+                    <td class="border border-slate-200 px-4 py-2 ">{{$item->no_transaksi}}</td>
+                    <td class="border border-slate-200 px-4 py-2 ">
+                        {{\Carbon\Carbon::parse($item->tgl_transaksi)->locale('id')->translatedFormat('d F Y')}}</td>
+                    <td class="border border-slate-200 px-4 py-2 ">{{$item->jenis_transaksi}}</td>
+                    <td class="border border-slate-200 px-4 py-2 ">{{$item->nasabah->nama_nasabah}}</td>
+                    <td class="border border-slate-200 px-4 py-2 ">{{$item->nasabah->jenis_id}}</td>
+                    <td class="border border-slate-200 px-4 py-2 ">{{$item->detail_transaksi->mata_uang ?? '-'}} </td>
+                    <td class="border border-slate-200 px-4 py-2 harga_transaksi" data-harga_transaksi={{ $item->
+                        detail_transaksi->sub_total
+                        }}>{{number_format($item->detail_transaksi->sub_total, 2, ',', '.')}}</td>
+                    <td class="border border-slate-200 px-4 py-2">
+                        <div class="flex justify-center gap-2">
+                            <a href="{{ route('transaksi.show',['transaksi'=>$item->token])}}" class=" my-5 rounded-md px-2 py-1 block bg-sky-500 text-white hover:scale-110
+                                hover:shadow-md hover:shadow-sky-500/60 transition-all duration-300">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <span onclick="modal(this)" data-no_transaksi="{{ $item->no_transaksi }}"
+                                data-tgl_transaksi="{{ \Carbon\Carbon::parse($item->tgl_transaksi)->locale('id')->translatedFormat('d F Y') }}"
+                                data-jenis_transaksi="{{ $item->jenis_transaksi }}"
+                                data-nama_nasabah="{{ $item->nasabah->nama_nasabah }}"
+                                data-no_hp="{{ $item->nasabah->no_hp ?? '-' }}"
+                                data-identitas="{{ $item->nasabah->jenis_id }} - {{ $item->nasabah->no_id ?? '-' }}"
+                                data-mata_uang="{{ $item->detail_transaksi->mata_uang ?? 'IDR' }}"
+                                data-jumlah="{{ $item->detail_transaksi->jumlah ?? 0 }}"
+                                data-rate="{{ $item->detail_transaksi->rate ?? 1 }}"
+                                data-total="{{ $item->detail_transaksi->sub_total ?? 0 }}"
+                                class="my-5 rounded-md px-2 py-1 block bg-green-600 text-white hover:scale-110 hover:shadow-md hover:shadow-green-600/60 transition-all duration-300 cursor-pointer">
+                                <i class="fa-solid fa-print"></i>
+                            </span>
+                            <a href="{{route('transaksi.edit',['transaksi'=>$item->token])}}" class=" my-5 rounded-md px-2 py-1 block bg-yellow-500 text-white hover:scale-110
+                                hover:shadow-md hover:shadow-yellow-500/60 transition-all duration-300"><i
+                                    class="fa-solid fa-pen-to-square"></i></a>
+                            <form action="{{route('transaksi.delete',['transaksi'=> $item->token])}}" method="POST"
+                                class="deleteBtn cursor-pointer">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit"
+                                    class="cursor-pointer my-5 rounded-md px-2 py-1 block bg-red-600 text-white hover:scale-110 hover:shadow-md hover:shadow-red-600/60 transition-all duration-300"><i
+                                        class="fa-solid fa-trash-can"></i></button>
+                            </form>
+                        </div>
 
-                </td>
-            </tr>
-            @empty
-            <td colspan="9" class="text-center border border-slate-200 px-4 py-4 text-lg font-semibold">Tidak ada data
-                transaksi yang ditemukan</td>
-            @endforelse
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="7"
-                    class="bg-rose-900 text-white font-bold text-center text-xl px-4 py-2 border border-slate-200">Total
-                </td>
-                <td colspan="2" class="text-center text-xl font-bold italic px-4 py-2 border border-slate-200"
-                    id="total_harga_transaksi">
-                </td>
-            </tr>
-        </tfoot>
-
-    </table>
+                    </td>
+                </tr>
+                @empty
+                <td colspan="9" class="text-center border border-slate-200 px-4 py-4 text-lg font-semibold">Tidak ada data
+                    transaksi yang ditemukan</td>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {{-- Modal Struk --}}

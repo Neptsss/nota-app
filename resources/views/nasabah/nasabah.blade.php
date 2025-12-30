@@ -55,6 +55,8 @@
 
         </form>
     </div>
+<div class="my-5">
+{{ $nasabah->links() }} </div>
     <div class="overflow-x-auto">
         <table class="table-auto mt-3 w-full">
             <thead>
@@ -235,3 +237,4 @@ e.classList.add('fa-arrow-down-short-wide');
  }
 </script>
 @endsection
+

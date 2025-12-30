@@ -29,7 +29,7 @@ if (Auth::attempt($validate)) {
     $request->session()->regenerate();
 
     notify()->success('Selamat Datang '.$request->username);
-    return redirect()->intended(route('transaksi.index'));
+    return redirect()->intended(route('dashboard'));
 
 }
     notify()->error("Username dan Password SALAH!");

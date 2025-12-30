@@ -17,7 +17,7 @@
                 <i class="fas fa-receipt text-2xl text-primary"></i>
             </div>
             <div>
-                <p class="text-xl font-bold">120</p>
+                <p class="text-xl font-bold">{{$transaksi->count()}}</p>
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
                 <i class="fas fa-user text-2xl text-orange-600"></i>
             </div>
             <div>
-                <p class="text-xl font-bold">120</p>
+                <p class="text-xl font-bold">{{$nasabah->count()}}</p>
             </div>
         </div>
     </div>
@@ -48,13 +48,13 @@
     {{-- mata uang --}}
     <div class="bg-white shadow-lg rounded-md p-5">
                 <p class="text-lg font-bold">Jumlah Mata Uang</p>
-           
+
         <div class="flex items-center gap-5 mt-5">
             <div class="bg-cyan-100 rounded-md p-5">
                 <i class="fa-solid fa-dollar-sign text-2xl text-cyan-600"></i>
             </div>
             <div>
-                <p class="text-xl font-bold">120</p>
+                <p class="text-xl font-bold">{{$nasabah->count()}}</p>
             </div>
         </div>
     </div>
@@ -62,15 +62,17 @@
     {{-- total transaksi --}}
     <div class="bg-white shadow-lg rounded-md p-5">
         <p class="text-lg font-bold">Total Seluruh Transaksi</p>
-    
+
         <div class="flex items-center gap-5 mt-5">
             <div class="bg-emerald-100 rounded-md p-5">
                 <i class="fa-solid fa-sack-dollar text-2xl text-emerald-600"></i>
             </div>
             <div>
-                <p class="text-xl font-bold">Rp 120.000.000</p>
+                <p class="text-xl font-bold">{{ number_format($total, 2,',', '.') }}</p>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+

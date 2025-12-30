@@ -187,9 +187,10 @@ class transaksiController extends Controller
         }
 
         $nama_foto = null;
-        if ($request->hasFile('foto_id')) {
-            if (File::exists(public_path('img/foto_id/' . $transaksi->nasabah->foto_id))) {
-                File::delete(public_path('img/foto_id/' . $transaksi->nasabah->foto_id));
+        if ($request->file('foto_id')) {
+            $pathFotoLama = public_path('img/foto_id' . $transaksi->nasabah->foto_id);
+            if ($transaksi->nasabah->foto_id && File::exists($pathFotoLama)) {
+                File::delete($pathFotoLama);
             }
             $file = $request->file('foto_id');
             $nama_foto = time() . '_' . $file->getClientOriginalName();
@@ -201,7 +202,7 @@ class transaksiController extends Controller
             "no_hp" => $validate["no_hp"],
             "jenis_id" => $validate["jenis_id"],
             "no_id" => $validate["no_id"],
-            "foto_id" => $nama_foto
+            "foto_id" => $nama_foto ? $nama_foto : $transaksi->nasabah->foto_id
         ]);
 
         $sub_total = $this->formatHarga($validate['jumlah_rp']);
@@ -231,7 +232,9 @@ class transaksiController extends Controller
 
     public function export(Request $request)
     {
-        // dd("hwllo");
+        // dd("hello");
         return Excel::download(new TransaksiExport($request->all()), 'daftar-transaksi.xlsx');
     }
 }
+
+

@@ -15,7 +15,7 @@ class nasabahController extends Controller
         return view('nasabah.nasabah', [
             "title" => "Nasabah",
             "header" => "Daftar Nasabah",
-            "nasabah" => nasabah::FilterNasabah(request(['nama_nasabah', 'no_hp', 'no_id', 'jenis_id']))->get()
+            "nasabah" => nasabah::FilterNasabah(request(['nama_nasabah', 'no_hp', 'no_id', 'jenis_id']))->latest()->paginate(3)
         ]);
     }
 
@@ -49,3 +49,5 @@ class nasabahController extends Controller
         return back();
     }
 }
+
+
